@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class NoteViewModel(private val dao: NoteTaskDao) : ViewModel() {
+class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
     val state: StateFlow<NoteUiState> = _state.asStateFlow()
 
@@ -24,7 +24,7 @@ class NoteViewModel(private val dao: NoteTaskDao) : ViewModel() {
         }
     }
 
-    fun setContent(content: String) {
+    fun setcontent(content: String) {
         _state.update {
             it.copy(content = content)
         }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -49,78 +48,81 @@ class MainActivity : ComponentActivity() {
 fun HomeScreen() {
     Column {
         NoteDetail()
-        TaskDetail()
-        NoteList()
-        TaskList()
+//        TaskDetail()
+//        NoteList()
+//        TaskList()
     }
 }
 
 @Composable
 fun NoteDetail(
     modifier: Modifier = Modifier,
-    noteViewModel: NoteViewModel = viewModel(factory = NoteFactory())
+    noteViewModel: NoteViewModel = viewModel(factory = AppViewModelNt.NoteFactory)
 ) {
     val state by noteViewModel.state.collectAsState()
     Column {
         Header(text = "NOTE DETAIL")
         OutlinedTextField(
-            value = state.title.value,
+            value = state.id,
             onValueChange = { noteViewModel.setTitle(it) },
             label = { Text(text = "Title") }
         )
         OutlinedTextField(
-            value = state.content.value,
-            onValueChange = { noteViewModel.setContent(it) },
+            value = state.title,
+            onValueChange = { noteViewModel.setcontent(it) },
             label = { Text(text = "Content") }
         )
-        Button(onClick = { noteViewModel.insertNote() }) {
-            Text(text = "Add Note")
+        Row {
+            Button(onClick = {noteViewModel.insertNote()}) {
+                Text(text = "Add")
+            }
+            Button(onClick = {}) {
+                Text(text = "Delete All")
+            }
         }
     }
 }
 
-@Composable
-fun TaskDetail(
-    modifier: Modifier = Modifier,
-    taskViewModel: TaskViewModel = viewModel(factory = TaskFactory())
-) {
-    val state by taskViewModel.state.collectAsState()
-    Column {
-        Header(text = "TASK DETAIL")
-        OutlinedTextField(
-            value = state.title.value,
-            onValueChange = { taskViewModel.setTitle(it) },
-            label = { Text(text = "Title") }
-        )
-        OutlinedTextField(
-            value = state.description.value,
-            onValueChange = { taskViewModel.setDescription(it) },
-            label = { Text(text = "Description") }
-        )
-        Button(onClick = { taskViewModel.insertTask() }) {
-            Text(text = "Add Task")
-        }
-    }
-}
+//@Composable
+//fun TaskDetail(
+//    modifier: Modifier = Modifier,
+//    taskViewModel: TaskViewModel = viewModel(factory = AppViewModelNt.TaskFactory)
+//) {
+//    val state by taskViewModel.state.collectAsState()
+//    Column {
+//        Header(text = "TASK DETAIL")
+//        OutlinedTextField(
+//            value = state.title,
+//            onValueChange = { taskViewModel.setTitle(it) },
+//            label = { Text(text = "Title") }
+//        )
+//        OutlinedTextField(
+//            value = state.content,
+//            onValueChange = { taskViewModel.setcontent(it) },
+//            label = { Text(text = "Content") } // Change label from "Description" to "Content"
+//        )
+//        Button(onClick = { taskViewModel.insertTask() }) {
+//            Text(text = "Add Task")
+//        }
+//    }
+//}
+
+//@Composable
+//fun NoteList() {
+//    Column {
+//        Header(text = "NOTE LIST")
+//    }
+//}
+
+//@Composable
+//fun TaskList() {
+//    Column {
+//        Header(text = "TASK LIST")
+//    }
+//}
 
 @Composable
-fun NoteList() {
-    Column {
-        Header(text = "NOTE LIST")
-        // Implement NoteList UI here
-    }
-}
-
-@Composable
-fun TaskList() {
-    Column {
-        Header(text = "TASK LIST")
-        // Implement TaskList UI here
-    }
-}
-
-@Composable
-fun Header(text: String) {
+fun Header(text: String = "") {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -128,9 +130,13 @@ fun Header(text: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(text = text, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = text,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold)
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
