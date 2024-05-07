@@ -8,19 +8,23 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class TaskViewModel(private val taskDao: NoteTaskDao) : ViewModel() {
+class TaskViewModel(private val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<TaskUiState> = MutableStateFlow(TaskUiState())
     val state: StateFlow<TaskUiState> = _state.asStateFlow()
-
+    fun setId(id: String) {
+        _state.update {
+            it.copy( id = id)
+        }
+    }
     fun setTitle(title: String) {
         _state.update {
             it.copy(title = title)
         }
     }
 
-    fun setDescription(description: String) {
+    fun setContent(content: String) {
         _state.update {
-            it.copy(description = description)
+            it.copy(content= content)
         }
     }
 
@@ -32,11 +36,16 @@ class TaskViewModel(private val taskDao: NoteTaskDao) : ViewModel() {
 
     fun insertTask() {
         viewModelScope.launch {
-            val task = Task(_state.value.title, _state.value.description, _state.value.isChecked)
-            taskDao.insert(task)
+            val task = Task(
+                id = _state.value.id,
+                title = _state.value.title,
+                content = _state.value.content,
+                isChecked = _state.value.isChecked
+            )
+            dao.insertTask(task)
         }
         _state.update {
-            it.copy(title = "", description = "", isChecked = false)
+            it.copy(id = "", title = "",content = "", isChecked =false )
         }
     }
 }

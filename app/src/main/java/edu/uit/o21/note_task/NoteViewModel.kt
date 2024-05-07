@@ -8,9 +8,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class NoteViewModel(private val noteDao: NoteTaskDao) : ViewModel() {
+class NoteViewModel(private val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
     val state: StateFlow<NoteUiState> = _state.asStateFlow()
+
+    fun setId(id: String) {
+        _state.update {
+            it.copy(id = id)
+        }
+    }
 
     fun setTitle(title: String) {
         _state.update {
@@ -26,11 +32,15 @@ class NoteViewModel(private val noteDao: NoteTaskDao) : ViewModel() {
 
     fun insertNote() {
         viewModelScope.launch {
-            val note = Note(_state.value.title, _state.value.content)
-            noteDao.insert(note)
+            val note = Note(
+                id = _state.value.id,
+                title = _state.value.title,
+                content = _state.value.content
+            )
+            dao.insertNote(note)
         }
         _state.update {
-            it.copy(title = "", content = "")
+            it.copy(id = "", title = "", content = "")
         }
     }
 }
