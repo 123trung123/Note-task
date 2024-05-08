@@ -44,8 +44,6 @@ class TaskViewModel(val dao: NoteTaskDao) : ViewModel() {
             )
             dao.insertTask(task)
         }
-        _state.update {
-            it.copy(id = "", title = "",content = "", isChecked =false )
-        }
+        _state.value = TaskUiState()
     }
 }

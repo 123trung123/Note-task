@@ -13,9 +13,9 @@ interface NoteTaskDao {
     @Insert
     suspend fun insertTask(task: Task)
 
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM NOTE")
     fun getAllNotes(): Flow<List<Note>>
 
-    @Query("SELECT * FROM Task")
+    @Query("SELECT * FROM TASK")
     fun getAllTasks(): Flow<List<Task>>
 }

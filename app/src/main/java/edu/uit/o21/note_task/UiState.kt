@@ -5,9 +5,15 @@ data class NoteUiState (
     val title: String = "",
     val content: String =""
 )
+data class NoteListUiState(
+    val list_notes: List<Note> = listOf()
+)
 data class TaskUiState (
     val id: String = "",
     val title:String = "",
     val content: String = "",
     val isChecked: Boolean = false
+)
+data class TaskListUiState(
+    val list_tasks: List<Task> = listOf()
 )

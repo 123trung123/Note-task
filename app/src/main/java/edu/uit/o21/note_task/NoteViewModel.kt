@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
@@ -13,21 +12,24 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     val state: StateFlow<NoteUiState> = _state.asStateFlow()
 
     fun setId(id: String) {
-        _state.update {
-            it.copy(id = id)
-        }
+//        _state.update {
+//            it.copy(id = id)
+//        }
+        _state.value = _state.value.copy(id = id)
     }
 
     fun setTitle(title: String) {
-        _state.update {
-            it.copy(title = title)
-        }
+//        _state.update {
+//            it.copy(title = title)
+//        }
+        _state.value = _state.value.copy(title = title)
     }
 
     fun setcontent(content: String) {
-        _state.update {
-            it.copy(content = content)
-        }
+//        _state.update {
+//            it.copy(content = content)
+//        }
+        _state.value = _state.value.copy(content = content)
     }
 
     fun insertNote() {
@@ -39,8 +41,6 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
             )
             dao.insertNote(note)
         }
-        _state.update {
-            it.copy(id = "", title = "", content = "")
-        }
+        _state.value = NoteUiState()
     }
 }
