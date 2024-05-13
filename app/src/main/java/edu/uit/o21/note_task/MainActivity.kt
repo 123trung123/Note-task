@@ -49,14 +49,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen() {
-    val noteListViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
+//    val noteListViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
     val taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
-    val noteListState by noteListViewModel.state.collectAsState()
+//    val noteListState by noteListViewModel.state.collectAsState()
     val taskListState by taskListViewModel.state.collectAsState()
     Column {
         NoteDetail()
         TaskDetail()
-        NoteList(list_notes = noteListState.list_notes)
+        NoteList()
         TaskList(list_tasks = taskListState.list_tasks)
     }
 }
@@ -143,89 +143,43 @@ fun Header(text: String = "") {
             fontWeight = FontWeight.Bold)
     }
 }
-//@Composable
-//fun NoteList(viewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
-//) {
-//    val state by viewModel.state.collectAsState()
-//    Header(text = "NOTE LIST")
-//    LazyColumn {
-//        items(state.list_notes,key = {it.id}) {
-//            Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
-//                ) {
-//                Text(text = it.id, fontSize = 18.sp)
-//                Text(text = it.title, fontSize = 18.sp)
-//                Text(text = it.content, fontSize = 18.sp)
-//            }
-//        }
-//    }
-//}
-//@Composable
-//fun NoteList(
-//    list_notes: List<Note>
-//) {
-//    Column {
-//        Header(text = "NOTE LIST")
-//        for (note in list_notes) {
-//            Row {
-//                Text(text = note.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                Spacer(Modifier.padding(20.dp))
-//                Text(text = note.title,fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                Spacer(Modifier.padding(20.dp))
-//                Text(text = note.content,fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//            }
-//        }
-//    }
-//}
 @Composable
 fun NoteList(
-    list_notes: List<Note>
+    noteViewModel: NoteListViewModel =viewModel(factory = AppViewModelNt.Factory)
 ) {
-    Column {
-        Header(text = "NOTE LIST")
-        LazyColumn {
-            items(list_notes) { note ->
-                NoteItem(note = note)
+    val state by noteViewModel.state.collectAsState()
+    Header(text = "NOTE LIST")
+    LazyColumn {
+            items(items = state.list_notes, key={it.id}) {
+                Row {
+                    Text(text = it.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Spacer(Modifier.padding(20.dp))
+                    Text(text = it.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Spacer(Modifier.padding(20.dp))
+                    Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                }
             }
-        }
     }
 }
-@Composable
-fun NoteItem(note: Note) {
-    Row {
-        Text(text = note.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-        Spacer(Modifier.padding(20.dp))
-        Text(text = note.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-        Spacer(Modifier.padding(20.dp))
-        Text(text = note.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-    }
-}
+
 @Composable
 fun TaskList(
-    list_tasks: List<Task>
+    taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
-    Column {
-        Header(text = "TASK LIST")
-        LazyColumn {
-            items(list_tasks) { task ->
-                TaskItem(task = task)
+    val state by taskListViewModel.state.collectAsState()
+    Header(text = "NOTE LIST")
+    LazyColumn {
+        items(items = state.list_tasks, key={it.id}) {
+            Row {
+                Text(text = it.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                Spacer(Modifier.padding(20.dp))
+                Text(text = it.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                Spacer(Modifier.padding(20.dp))
+                Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
             }
         }
     }
 }
-@Composable
-fun TaskItem(task: Task) {
-    Row {
-        Text(text = task.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-        Spacer(Modifier.padding(20.dp))
-        Text(text = task.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-        Spacer(Modifier.padding(20.dp))
-        Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-    }
-}
-
-
 
 
 @Preview(showBackground = true)

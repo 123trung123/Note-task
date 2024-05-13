@@ -43,4 +43,15 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
         }
         _state.value = NoteUiState()
     }
+    fun deleteNote() {
+        viewModelScope.launch {
+            val note = Note(
+                id = _state.value.id,
+                title = _state.value.title,
+                content = _state.value.content
+            )
+            dao.deleteNote(note)
+        }
+        _state.value = NoteUiState()
+    }
 }
