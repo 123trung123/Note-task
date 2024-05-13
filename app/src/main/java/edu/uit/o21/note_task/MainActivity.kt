@@ -49,15 +49,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen() {
-//    val noteListViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
-    val taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
-//    val noteListState by noteListViewModel.state.collectAsState()
-    val taskListState by taskListViewModel.state.collectAsState()
     Column {
         NoteDetail()
         TaskDetail()
         NoteList()
-        TaskList(list_tasks = taskListState.list_tasks)
+        TaskList()
     }
 }
 
