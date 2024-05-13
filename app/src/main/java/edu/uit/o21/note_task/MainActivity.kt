@@ -29,6 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import edu.uit.o21.note_task.ui.theme.NotetaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,25 +50,97 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+//
+//@Composable
+//fun HomeScreen() {
+//    Column {
+//        NoteDetail()
+//        TaskDetail()
+//        NoteList()
+//        TaskList()
+//    }
+//}
 @Composable
-fun HomeScreen() {
-    Column {
-        NoteDetail()
-        TaskDetail()
-        NoteList()
-        TaskList()
+fun HomeScreen(modifier: Modifier = Modifier,
+               navHostController: NavHostController = rememberNavController()
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = "TheMain"
+    ) {
+        composable(route = "TheMain") {
+            TheMain(
+                toNoteDetail = { navHostController.navigate("NoteDetail") },
+                toTaskDetail = { navHostController.navigate("TaskDetail") },
+            )
+        }
+        composable(route = "NoteDetail") {
+            NoteDetail(
+                onClickBack = { navHostController.navigateUp() },
+                toNoteList = { navHostController.navigate("NoteList") },
+                toTaskDetail = { navHostController.navigate("TaskDetail") }
+            )
+        }
+        composable(route = "NoteList") {
+            NoteList(
+                onClickBack = { navHostController.navigateUp() },
+                toTheMain = { navHostController.navigate("TheMain") }
+            )
+        }
+        composable(route = "TaskDetail") {
+            TaskDetail(
+                onClickBack = { navHostController.navigateUp() },
+                toTaskList = { navHostController.navigate("TaskList") },
+                toNoteDetail = { navHostController.navigate("TheMain") }
+            )
+        }
+
+        composable(route = "TaskList") {
+            TaskList(
+                onClickBack = { navHostController.navigateUp() },
+                toTheMain = { navHostController.navigate("TheMain") }
+            )
+        }
     }
 }
 
 @Composable
+fun TheMain(
+    modifier: Modifier = Modifier,
+    toNoteDetail: () -> Unit,
+    toTaskDetail: () -> Unit,
+){
+    Row {
+        Button(onClick = toNoteDetail) {
+            Text(text = "Note")
+        }
+        Button(onClick = toTaskDetail) {
+            Text(text = "Task")
+        }
+    }
+}
+@Composable
 fun NoteDetail(
     modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
+    toNoteList: () -> Unit,
+    toTaskDetail: () -> Unit,
     noteViewModel: NoteViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
     Column {
         Header(text = "NOTE DETAIL")
+        Row {
+            Button(onClick = onClickBack) {
+                Text(text = "Back")
+            }
+            Button(onClick = toNoteList) {
+                Text(text = "View Notes")
+            }
+            Button(onClick = toTaskDetail) {
+                Text(text = "Tasks")
+            }
+        }
         OutlinedTextField(
             value = state.id,
             onValueChange = { noteViewModel.setId(it) },
@@ -84,7 +160,7 @@ fun NoteDetail(
             Button(onClick = {noteViewModel.insertNote()}) {
                 Text(text = "Add")
             }
-            Button(onClick = {}) {
+            Button(onClick = {noteViewModel.deleteNote()}) {
                 Text(text = "Delete All")
             }
         }
@@ -94,11 +170,25 @@ fun NoteDetail(
 @Composable
 fun TaskDetail(
     modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
+    toTaskList: () -> Unit,
+    toNoteDetail: () -> Unit,
     taskViewModel: TaskViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskViewModel.state.collectAsState()
     Column {
         Header(text = "TASK DETAIL")
+        Row {
+            Button(onClick = onClickBack) {
+                Text(text = "Back")
+            }
+            Button(onClick = toTaskList) {
+                Text(text = "View Tasks")
+            }
+            Button(onClick = toNoteDetail) {
+                Text(text = "Notes")
+            }
+        }
         OutlinedTextField(
             value = state.id,
             onValueChange = { taskViewModel.setId(it) },
@@ -118,7 +208,7 @@ fun TaskDetail(
             Button(onClick = {taskViewModel.insertTask()}) {
                 Text(text = "Add")
             }
-            Button(onClick = {}) {
+            Button(onClick = {taskViewModel.deleteTask()}) {
                 Text(text = "Delete All")
             }
         }
@@ -141,10 +231,20 @@ fun Header(text: String = "") {
 }
 @Composable
 fun NoteList(
+    onClickBack: () -> Unit,
+    toTheMain: () -> Unit,
     noteViewModel: NoteListViewModel =viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
     Header(text = "NOTE LIST")
+    Row {
+        Button(onClick = onClickBack) {
+            Text(text = "Back")
+        }
+        Button(onClick = toTheMain) {
+            Text(text = "Home")
+        }
+    }
     LazyColumn {
             items(items = state.list_notes, key={it.id}) {
                 Row {
@@ -152,18 +252,27 @@ fun NoteList(
                     Spacer(Modifier.padding(20.dp))
                     Text(text = it.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Spacer(Modifier.padding(20.dp))
-                    Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                }
+                    Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp)) }
             }
     }
 }
 
 @Composable
 fun TaskList(
+    onClickBack: () -> Unit,
+    toTheMain: () -> Unit,
     taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskListViewModel.state.collectAsState()
     Header(text = "NOTE LIST")
+    Row {
+        Button(onClick = onClickBack) {
+            Text(text = "Back")
+        }
+        Button(onClick = toTheMain) {
+            Text(text = "Home")
+        }
+    }
     LazyColumn {
         items(items = state.list_tasks, key={it.id}) {
             Row {

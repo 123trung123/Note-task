@@ -46,4 +46,15 @@ class TaskViewModel(val dao: NoteTaskDao) : ViewModel() {
         }
         _state.value = TaskUiState()
     }
+    fun deleteTask() {
+        viewModelScope.launch {
+            val task = Task(
+                id = _state.value.id,
+                title = _state.value.title,
+                content = _state.value.content,
+                isChecked = _state.value.isChecked
+            )
+            dao.deleteTask(task)
+        }
+    }
 }

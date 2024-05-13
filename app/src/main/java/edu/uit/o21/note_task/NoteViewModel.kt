@@ -52,6 +52,5 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
             )
             dao.deleteNote(note)
         }
-        _state.value = NoteUiState()
     }
 }
