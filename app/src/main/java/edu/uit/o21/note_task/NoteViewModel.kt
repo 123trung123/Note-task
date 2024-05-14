@@ -11,12 +11,12 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
     val state: StateFlow<NoteUiState> = _state.asStateFlow()
 
-    fun setId(id: String) {
-//        _state.update {
-//            it.copy(id = id)
-//        }
-        _state.value = _state.value.copy(id = id)
-    }
+//    fun setId(id: String) {
+////        _state.update {
+////            it.copy(id = id)
+////        }
+//        _state.value = _state.value.copy(id = id)
+//    }
 
     fun setTitle(title: String) {
 //        _state.update {
@@ -35,7 +35,6 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     fun insertNote() {
         viewModelScope.launch {
             val note = Note(
-                id = _state.value.id,
                 title = _state.value.title,
                 content = _state.value.content
             )
@@ -46,11 +45,12 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     fun deleteNote() {
         viewModelScope.launch {
             val note = Note(
-                id = _state.value.id,
                 title = _state.value.title,
                 content = _state.value.content
             )
             dao.deleteNote(note)
         }
+        _state.value = NoteUiState()
     }
+
 }

@@ -1,23 +1,33 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
+
 package edu.uit.o21.note_task
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,58 +60,58 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-//
-//@Composable
-//fun HomeScreen() {
-//    Column {
-//        NoteDetail()
-//        TaskDetail()
-//        NoteList()
-//        TaskList()
-//    }
-//}
+
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier,
                navHostController: NavHostController = rememberNavController()
 ) {
-    NavHost(
-        navController = navHostController,
-        startDestination = "TheMain"
-    ) {
-        composable(route = "TheMain") {
-            TheMain(
-                toNoteDetail = { navHostController.navigate("NoteDetail") },
-                toTaskDetail = { navHostController.navigate("TaskDetail") },
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Note Task App") }
             )
+        },
+        content = { paddingValues ->
+            NavHost(
+                navController = navHostController,
+                startDestination = "TheMain",
+                modifier = Modifier.padding(paddingValues)
+            ) {
+                composable(route = "TheMain") {
+                    TheMain(
+                        toNoteDetail = { navHostController.navigate("NoteDetail") },
+                        toTaskDetail = { navHostController.navigate("TaskDetail") },
+                    )
+                }
+                composable(route = "NoteDetail") {
+                    NoteDetail(
+                        onClickBack = { navHostController.navigateUp() },
+                        toNoteList = { navHostController.navigate("NoteList") },
+                        toTaskDetail = { navHostController.navigate("TaskDetail") }
+                    )
+                }
+                composable(route = "NoteList") {
+                    NoteList(
+                        onClickBack = { navHostController.navigateUp() },
+                        toTheMain = { navHostController.navigate("TheMain") }
+                    )
+                }
+                composable(route = "TaskDetail") {
+                    TaskDetail(
+                        onClickBack = { navHostController.navigateUp() },
+                        toTaskList = { navHostController.navigate("TaskList") },
+                        toNoteDetail = { navHostController.navigate("NoteDetail") }
+                    )
+                }
+                composable(route = "TaskList") {
+                    TaskList(
+                        onClickBack = { navHostController.navigateUp() },
+                        toTheMain = { navHostController.navigate("TheMain") }
+                    )
+                }
+            }
         }
-        composable(route = "NoteDetail") {
-            NoteDetail(
-                onClickBack = { navHostController.navigateUp() },
-                toNoteList = { navHostController.navigate("NoteList") },
-                toTaskDetail = { navHostController.navigate("TaskDetail") }
-            )
-        }
-        composable(route = "NoteList") {
-            NoteList(
-                onClickBack = { navHostController.navigateUp() },
-                toTheMain = { navHostController.navigate("TheMain") }
-            )
-        }
-        composable(route = "TaskDetail") {
-            TaskDetail(
-                onClickBack = { navHostController.navigateUp() },
-                toTaskList = { navHostController.navigate("TaskList") },
-                toNoteDetail = { navHostController.navigate("TheMain") }
-            )
-        }
-
-        composable(route = "TaskList") {
-            TaskList(
-                onClickBack = { navHostController.navigateUp() },
-                toTheMain = { navHostController.navigate("TheMain") }
-            )
-        }
-    }
+    )
 }
 
 @Composable
@@ -109,16 +119,28 @@ fun TheMain(
     modifier: Modifier = Modifier,
     toNoteDetail: () -> Unit,
     toTaskDetail: () -> Unit,
-){
-    Row {
-        Button(onClick = toNoteDetail) {
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(onClick = toNoteDetail, modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)) {
             Text(text = "Note")
         }
-        Button(onClick = toTaskDetail) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = toTaskDetail, modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)) {
             Text(text = "Task")
         }
     }
 }
+
 @Composable
 fun NoteDetail(
     modifier: Modifier = Modifier,
@@ -128,9 +150,16 @@ fun NoteDetail(
     noteViewModel: NoteViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Header(text = "NOTE DETAIL")
-        Row {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Button(onClick = onClickBack) {
                 Text(text = "Back")
             }
@@ -138,31 +167,29 @@ fun NoteDetail(
                 Text(text = "View Notes")
             }
             Button(onClick = toTaskDetail) {
-                Text(text = "Tasks")
+                Text(text = "to Tasks")
             }
         }
-        OutlinedTextField(
-            value = state.id,
-            onValueChange = { noteViewModel.setId(it) },
-            label = { Text(text = "Id") }
-        )
+        Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = state.title,
             onValueChange = { noteViewModel.setTitle(it) },
-            label = { Text(text = "Title") }
+            label = { Text(text = "Title") },
+            modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { noteViewModel.setcontent(it) },
-            label = { Text(text = "Content") }
+            label = { Text(text = "Content") },
+            modifier = Modifier.fillMaxWidth()
         )
-        Row {
-            Button(onClick = {noteViewModel.insertNote()}) {
-                Text(text = "Add")
-            }
-            Button(onClick = {noteViewModel.deleteNote()}) {
-                Text(text = "Delete All")
-            }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { noteViewModel.insertNote() },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(text = "Add")
         }
     }
 }
@@ -176,9 +203,16 @@ fun TaskDetail(
     taskViewModel: TaskViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskViewModel.state.collectAsState()
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Header(text = "TASK DETAIL")
-        Row {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Button(onClick = onClickBack) {
                 Text(text = "Back")
             }
@@ -186,34 +220,48 @@ fun TaskDetail(
                 Text(text = "View Tasks")
             }
             Button(onClick = toNoteDetail) {
-                Text(text = "Notes")
+                Text(text = "to Notes")
             }
         }
-        OutlinedTextField(
-            value = state.id,
-            onValueChange = { taskViewModel.setId(it) },
-            label = { Text(text = "Id") }
-        )
+        Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = state.title,
             onValueChange = { taskViewModel.setTitle(it) },
-            label = { Text(text = "Title") }
+            label = { Text(text = "Title") },
+            modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { taskViewModel.setcontent(it) },
-            label = { Text(text = "Content") }
+            label = { Text(text = "Content") },
+            modifier = Modifier.fillMaxWidth()
         )
-        Row {
-            Button(onClick = {taskViewModel.insertTask()}) {
-                Text(text = "Add")
-            }
-            Button(onClick = {taskViewModel.deleteTask()}) {
-                Text(text = "Delete All")
-            }
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = state.priority.toString(),
+            onValueChange = { taskViewModel.setPriority(it.toIntOrNull() ?: 0) },
+            label = { Text(text = "Priority") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = state.done,
+                onCheckedChange = { taskViewModel.setDone(it) }
+            )
+            Text(text = "Done")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { taskViewModel.insertTask() },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(text = "Add")
         }
     }
 }
+
 @Composable
 fun Header(text: String = "") {
     Box(
@@ -226,34 +274,67 @@ fun Header(text: String = "") {
         Text(
             text = text,
             fontSize = 30.sp,
-            fontWeight = FontWeight.Bold)
+            fontWeight = FontWeight.Bold
+        )
     }
 }
+
 @Composable
 fun NoteList(
     onClickBack: () -> Unit,
     toTheMain: () -> Unit,
-    noteViewModel: NoteListViewModel =viewModel(factory = AppViewModelNt.Factory)
+    noteViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
-    Header(text = "NOTE LIST")
-    Row {
-        Button(onClick = onClickBack) {
-            Text(text = "Back")
-        }
-        Button(onClick = toTheMain) {
-            Text(text = "Home")
-        }
-    }
-    LazyColumn {
-            items(items = state.list_notes, key={it.id}) {
-                Row {
-                    Text(text = it.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                    Spacer(Modifier.padding(20.dp))
-                    Text(text = it.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                    Spacer(Modifier.padding(20.dp))
-                    Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp)) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Header(text = "NOTE LIST")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(onClick = onClickBack) {
+                Text(text = "Back")
             }
+            Button(onClick = toTheMain) {
+                Text(text = "Home")
+            }
+        }
+        LazyColumn {
+            items(items = state.list_notes, key = { it.id }) { note ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = note.id.toString(),
+                            fontSize = 25.sp,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        Text(
+                            text = note.title,
+                            fontSize = 25.sp,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        Text(
+                            text = note.content,
+                            fontSize = 25.sp,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                    }
+                    Button(onClick = { noteViewModel.deleteNoteById(note.id) } ) {
+                        Text(text = "Delete")
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -264,28 +345,53 @@ fun TaskList(
     taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskListViewModel.state.collectAsState()
-    Header(text = "NOTE LIST")
-    Row {
-        Button(onClick = onClickBack) {
-            Text(text = "Back")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Header(text = "TASK LIST")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(onClick = onClickBack) {
+                Text(text = "Back")
+            }
+            Button(onClick = toTheMain) {
+                Text(text = "Home")
+            }
         }
-        Button(onClick = toTheMain) {
-            Text(text = "Home")
-        }
-    }
-    LazyColumn {
-        items(items = state.list_tasks, key={it.id}) {
-            Row {
-                Text(text = it.id, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                Spacer(Modifier.padding(20.dp))
-                Text(text = it.title, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                Spacer(Modifier.padding(20.dp))
-                Text(text = it.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+        LazyColumn {
+            items(items = state.list_tasks, key = { it.id }) { task ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = "ID: ${task.id}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Text(text = "Title: ${task.title}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = task.done,
+                            onCheckedChange = { isChecked ->
+                                taskListViewModel.updateTask(task.copy(done = isChecked))
+                            },
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        Text(text = "Done")
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
+                        Text(text = "Delete")
+                    }
+                }
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

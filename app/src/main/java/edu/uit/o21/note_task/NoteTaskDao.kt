@@ -23,6 +23,12 @@ interface NoteTaskDao {
     suspend fun updateNote(note: Note)
     @Update
     suspend fun updateTask(task: Task)
+    @Query("DELETE FROM note WHERE id = :noteId")
+    suspend fun deleteNoteById(noteId: Int)
+    @Query("DELETE FROM task WHERE id = :taskId")
+    suspend fun deleteTaskById(taskId: Int)
+    @Update
+    suspend fun updateTaskStatus(task: Task)
     @Query("SELECT * FROM NOTE")
     fun getAllNotes(): Flow<List<Note>>
 

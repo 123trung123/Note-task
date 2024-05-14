@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
 class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
     val state: StateFlow<NoteListUiState>
         get() {
@@ -15,17 +17,46 @@ class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
                     initialValue = NoteListUiState()
                 )
         }
+    fun deleteNoteById(noteId: Int) {
+        viewModelScope.launch {
+            dao.deleteNoteById(noteId)
+        }
+    }
 }
 
+//class TaskListViewModel(private val dao: NoteTaskDao) : ViewModel() {
+//
+//    val state: StateFlow<TaskListUiState>
+//        get() {
+//            return dao.getAllTasks().map { TaskListUiState(it) }
+//                .stateIn(
+//                    scope = viewModelScope,
+//                    started = SharingStarted.WhileSubscribed(5_000L),
+//                    initialValue = TaskListUiState()
+//                )
+//        }
+//
+//}
 class TaskListViewModel(private val dao: NoteTaskDao) : ViewModel() {
 
+    private val _tasks = dao.getAllTasks().map { TaskListUiState(it) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000L),
+            initialValue = TaskListUiState()
+        )
+
     val state: StateFlow<TaskListUiState>
-        get() {
-            return dao.getAllTasks().map { TaskListUiState(it) }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5_000L),
-                    initialValue = TaskListUiState()
-                )
+        get() = _tasks
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            dao.updateTask(task)
         }
+    }
+    fun deleteTaskById(taskId: Int) {
+        viewModelScope.launch {
+            dao.deleteTaskById(taskId)
+        }
+    }
 }
