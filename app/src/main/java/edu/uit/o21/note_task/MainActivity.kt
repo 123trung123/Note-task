@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3Api::class
 )
 
 package edu.uit.o21.note_task
@@ -43,6 +42,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import edu.uit.o21.note_task.ui.theme.NotetaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -67,15 +67,19 @@ fun HomeScreen(modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "Note Task App") }
-            )
+            Column{
+                TopAppBar(
+                    title = { Text(text = "NOTE TASK APP") }
+                )
+            }
         },
+
         content = { paddingValues ->
             NavHost(
                 navController = navHostController,
                 startDestination = "TheMain",
                 modifier = Modifier.padding(paddingValues)
+
             ) {
                 composable(route = "TheMain") {
                     TheMain(
@@ -125,8 +129,12 @@ fun TheMain(
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+
     ) {
+        AsyncImage(
+            model = "https://imgflip.com/s/meme/Cute-Cat.jpg",
+            contentDescription = null,
+        )
         Button(onClick = toNoteDetail, modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)) {
