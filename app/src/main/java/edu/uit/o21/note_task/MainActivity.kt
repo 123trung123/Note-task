@@ -52,8 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NotetaskTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Blue
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     HomeScreen()
                 }
@@ -468,9 +467,12 @@ fun TaskList(
                         .padding(vertical = 8.dp)
                 ) {
                     //xóa id vì không cần thiết
-                    Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                    Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-                    Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    Row {
+                        Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
+
+                        Text(text = "Priority: ${task.priority}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
+                    }
+                    Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                             checked = task.done,
@@ -481,7 +483,6 @@ fun TaskList(
                         )
                         Text(text = "Done")
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
                     Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
                         Text(text = "Delete")
                     }
