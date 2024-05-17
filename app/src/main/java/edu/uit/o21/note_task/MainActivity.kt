@@ -30,6 +30,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -321,11 +323,11 @@ fun NoteList(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(
-                            text = note.id.toString(),
-                            fontSize = 25.sp,
-                            modifier = Modifier.padding(10.dp)
-                        )
+//                        Text(
+//                            text = note.id.toString(),
+//                            fontSize = 25.sp,
+//                            modifier = Modifier.padding(10.dp)
+//                        )
                         Text(
                             text = note.title,
                             fontSize = 25.sp,
@@ -346,6 +348,60 @@ fun NoteList(
     }
 }
 
+//@Composable
+//fun TaskList(
+//    onClickBack: () -> Unit,
+//    toTheMain: () -> Unit,
+//    taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
+//) {
+//    val state by taskListViewModel.state.collectAsState()
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp)
+//    ) {
+//        Header(text = "TASK LIST")
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Button(onClick = onClickBack) {
+//                Text(text = "Back")
+//            }
+//            Button(onClick = toTheMain) {
+//                Text(text = "Home")
+//            }
+//        }
+//        LazyColumn {
+//            items(items = state.list_tasks, key = { it.id }) { task ->
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(vertical = 8.dp)
+//                ) {
+////                    Text(text = "ID: ${task.id}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+//                    Text(text = "Title: ${task.title}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+//                    Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+//                    Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        Checkbox(
+//                            checked = task.done,
+//                            onCheckedChange = { isChecked ->
+//                                taskListViewModel.updateTask(task.copy(done = isChecked))
+//                            },
+//                            modifier = Modifier.padding(10.dp)
+//                        )
+//                        Text(text = "Done")
+//                    }
+//                    Spacer(modifier = Modifier.height(10.dp))
+//                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
+//                        Text(text = "Delete")
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 @Composable
 fun TaskList(
     onClickBack: () -> Unit,
@@ -353,6 +409,9 @@ fun TaskList(
     taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskListViewModel.state.collectAsState()
+    val sortByPriority = remember { mutableStateOf(false) }
+    val hideCompleted = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -370,14 +429,44 @@ fun TaskList(
                 Text(text = "Home")
             }
         }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Sort by:", fontSize = 20.sp)
+            Button(onClick = { sortByPriority.value = !sortByPriority.value }) {
+                Text(text = if (sortByPriority.value) "Priority" else "Newest")
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Show Completed:", fontSize = 20.sp)
+            Button(onClick = { hideCompleted.value = !hideCompleted.value }) {
+                Text(text = if (hideCompleted.value) "Hide" else "Show")
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
-            items(items = state.list_tasks, key = { it.id }) { task ->
+            val filteredTasks = state.list_tasks
+                .filter { !hideCompleted.value || !it.done }
+                .let { tasks ->
+                    if (sortByPriority.value) {
+                        tasks.sortedByDescending { it.priority }
+                    } else {
+                        tasks.sortedByDescending { it.id }
+                    }
+                }
+
+            items(items = filteredTasks, key = { it.id }) { task ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(text = "ID: ${task.id}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Text(text = "Title: ${task.title}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
