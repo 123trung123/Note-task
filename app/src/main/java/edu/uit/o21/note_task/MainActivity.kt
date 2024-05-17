@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
             NotetaskTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.Blue
                 ) {
                     HomeScreen()
                 }
@@ -347,7 +346,7 @@ fun NoteList(
         }
     }
 }
-
+//code cũ: (backup)
 //@Composable
 //fun TaskList(
 //    onClickBack: () -> Unit,
@@ -434,7 +433,7 @@ fun TaskList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Sort by:", fontSize = 20.sp)
+            Text(text = "Currently sorted by:", fontSize = 20.sp)
             Button(onClick = { sortByPriority.value = !sortByPriority.value }) {
                 Text(text = if (sortByPriority.value) "Priority" else "Newest")
             }
@@ -451,6 +450,7 @@ fun TaskList(
         }
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
+            //cach de filter theo priority va id
             val filteredTasks = state.list_tasks
                 .filter { !hideCompleted.value || !it.done }
                 .let { tasks ->
@@ -467,7 +467,8 @@ fun TaskList(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(text = "Title: ${task.title}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
+                    //xóa id vì không cần thiết
+                    Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
