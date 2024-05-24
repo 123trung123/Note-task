@@ -1,5 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package edu.uit.o21.note_task
 
@@ -18,14 +17,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -74,11 +78,11 @@ fun HomeScreen(modifier: Modifier = Modifier,
             }
         },
 
-        content = { paddingValues ->
+        content = { innerPadding ->
             NavHost(
                 navController = navHostController,
                 startDestination = "TheMain",
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(innerPadding)
 
             ) {
                 composable(route = "TheMain") {
@@ -400,6 +404,109 @@ fun NoteList(
 //        }
 //    }
 //}
+//@Composable
+//fun TaskList(
+//    onClickBack: () -> Unit,
+//    toTheMain: () -> Unit,
+//    taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
+//) {
+//    val state by taskListViewModel.state.collectAsState()
+//    val sortByPriority = remember { mutableStateOf(false) }
+//    val hideCompleted = remember { mutableStateOf(false) }
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp)
+//    ) {
+//        Header(text = "TASK LIST")
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Button(onClick = onClickBack) {
+//                Text(text = "Back")
+//            }
+//            Button(onClick = toTheMain) {
+//                Text(text = "Home")
+//            }
+//        }
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(text = "Currently sorted by:", fontSize = 20.sp)
+//            Button(onClick = { sortByPriority.value = !sortByPriority.value }) {
+//                Text(text = if (sortByPriority.value) "Priority" else "Newest")
+//            }
+//        }
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(text = "Show Completed:", fontSize = 20.sp)
+//            Button(onClick = { hideCompleted.value = !hideCompleted.value }) {
+//                Text(text = if (hideCompleted.value) "Hide" else "Show")
+//            }
+//        }
+//        Spacer(modifier = Modifier.height(16.dp))
+//        LazyColumn (
+//            state = rememberLazyListState()
+//        )
+//        {
+//            //cach de filter theo priority va id
+//            val filteredTasks = state.list_tasks
+//                .filter { !hideCompleted.value || !it.done }
+//                .let { tasks ->
+//                    if (sortByPriority.value) {
+//                        tasks.sortedByDescending { it.priority }
+//                    } else {
+//                        tasks.sortedByDescending { it.id }
+//                    }
+//                }
+//
+//            items(items = filteredTasks, key = { it.id }) { task ->
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(vertical = 8.dp)
+//                ) {
+//                    var state = rememberDismissState(
+//                        confirmValueChange = {
+//                            if ( it == DismissValue.DismissedToStart){
+//                                TaskList.remove(item)
+//                            }
+//                            true
+//                        }
+//                    )
+//                    //xóa id vì không cần thiết
+//                    Row {
+//                        Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
+//
+//                        Text(text = "Priority: ${task.priority}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
+//                    }
+//                    Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        Checkbox(
+//                            checked = task.done,
+//                            onCheckedChange = { isChecked ->
+//                                taskListViewModel.updateTask(task.copy(done = isChecked))
+//                            },
+//                            modifier = Modifier.padding(10.dp)
+//                        )
+//                        Text(text = "Done")
+//                    }
+//                    SwipeToDismiss(state = state, background = , dismissContent = )
+//                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
+//                        Text(text = "Delete")
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 @Composable
 fun TaskList(
     onClickBack: () -> Unit,
@@ -448,8 +555,9 @@ fun TaskList(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn {
-            //cach de filter theo priority va id
+        LazyColumn (
+            state = rememberLazyListState()
+        ) {
             val filteredTasks = state.list_tasks
                 .filter { !hideCompleted.value || !it.done }
                 .let { tasks ->
@@ -461,37 +569,70 @@ fun TaskList(
                 }
 
             items(items = filteredTasks, key = { it.id }) { task ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                ) {
-                    //xóa id vì không cần thiết
-                    Row {
-                        Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
-
-                        Text(text = "Priority: ${task.priority}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
+                val dismissState = rememberDismissState(
+                    confirmValueChange = {
+                        if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
+                            taskListViewModel.deleteTaskById(task.id)
+                        }
+                        true
                     }
-                    Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(
-                            checked = task.done,
-                            onCheckedChange = { isChecked ->
-                                taskListViewModel.updateTask(task.copy(done = isChecked))
-                            },
-                            modifier = Modifier.padding(10.dp)
-                        )
-                        Text(text = "Done")
+                )
+                SwipeToDismiss(
+                    state = dismissState,
+                    background = {
+                        val color = when (dismissState.dismissDirection) {
+                            DismissDirection.StartToEnd -> Color.Red
+                            DismissDirection.EndToStart -> Color.Red
+                            null -> Color.Transparent
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color)
+                                .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Text("Deleting", color = Color.White)
+                        }
+                    },
+                    dismissContent = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                        ) {
+                            Row {
+                                Text(
+                                    text = "Title: ${task.title}",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    modifier = Modifier.padding(10.dp)
+                                )
+                                Text(
+                                    text = "Priority: ${task.priority}",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    modifier = Modifier.padding(10.dp)
+                                )
+                            }
+                            Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(
+                                    checked = task.done,
+                                    onCheckedChange = { isChecked ->
+                                        taskListViewModel.updateTask(task.copy(done = isChecked))
+                                    },
+                                    modifier = Modifier.padding(10.dp)
+                                )
+                                Text(text = "Done")
+                            }
+                        }
                     }
-                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
-                        Text(text = "Delete")
-                    }
-                }
+                )
             }
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
