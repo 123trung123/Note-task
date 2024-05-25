@@ -317,6 +317,32 @@ fun NoteList(
         }
         LazyColumn {
             items(items = state.list_notes, key = { it.id }) { note ->
+                val dismissState = rememberDismissState(
+                    confirmValueChange = {
+                        if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart){
+                            noteViewModel.deleteNoteById(note.id)
+                        }
+                        true
+                    }
+                )
+                SwipeToDismiss(state = dismissState,
+                    background = {
+                    val color = when (dismissState.dismissDirection) {
+                        DismissDirection.StartToEnd -> Color.Red
+                        DismissDirection.EndToStart -> Color.Red
+                        null -> Color.Transparent
+                    }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color)
+                            .padding(horizontal = 20.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text("Deleting", color = Color.White)
+                    }
+                },
+                    dismissContent = {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -341,172 +367,11 @@ fun NoteList(
                             modifier = Modifier.padding(10.dp)
                         )
                     }
-                    Button(onClick = { noteViewModel.deleteNoteById(note.id) } ) {
-                        Text(text = "Delete")
-                    }
                 }
-            }
+            })}
         }
     }
 }
-//code cũ: (backup)
-//@Composable
-//fun TaskList(
-//    onClickBack: () -> Unit,
-//    toTheMain: () -> Unit,
-//    taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
-//) {
-//    val state by taskListViewModel.state.collectAsState()
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(16.dp)
-//    ) {
-//        Header(text = "TASK LIST")
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Button(onClick = onClickBack) {
-//                Text(text = "Back")
-//            }
-//            Button(onClick = toTheMain) {
-//                Text(text = "Home")
-//            }
-//        }
-//        LazyColumn {
-//            items(items = state.list_tasks, key = { it.id }) { task ->
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 8.dp)
-//                ) {
-////                    Text(text = "ID: ${task.id}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                    Text(text = "Title: ${task.title}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                    Text(text = task.content, fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                    Text(text = "Priority: ${task.priority}", fontSize = 25.sp, modifier = Modifier.padding(10.dp))
-//                    Row(verticalAlignment = Alignment.CenterVertically) {
-//                        Checkbox(
-//                            checked = task.done,
-//                            onCheckedChange = { isChecked ->
-//                                taskListViewModel.updateTask(task.copy(done = isChecked))
-//                            },
-//                            modifier = Modifier.padding(10.dp)
-//                        )
-//                        Text(text = "Done")
-//                    }
-//                    Spacer(modifier = Modifier.height(10.dp))
-//                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
-//                        Text(text = "Delete")
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-//@Composable
-//fun TaskList(
-//    onClickBack: () -> Unit,
-//    toTheMain: () -> Unit,
-//    taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
-//) {
-//    val state by taskListViewModel.state.collectAsState()
-//    val sortByPriority = remember { mutableStateOf(false) }
-//    val hideCompleted = remember { mutableStateOf(false) }
-//
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .padding(16.dp)
-//    ) {
-//        Header(text = "TASK LIST")
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Button(onClick = onClickBack) {
-//                Text(text = "Back")
-//            }
-//            Button(onClick = toTheMain) {
-//                Text(text = "Home")
-//            }
-//        }
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Text(text = "Currently sorted by:", fontSize = 20.sp)
-//            Button(onClick = { sortByPriority.value = !sortByPriority.value }) {
-//                Text(text = if (sortByPriority.value) "Priority" else "Newest")
-//            }
-//        }
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Text(text = "Show Completed:", fontSize = 20.sp)
-//            Button(onClick = { hideCompleted.value = !hideCompleted.value }) {
-//                Text(text = if (hideCompleted.value) "Hide" else "Show")
-//            }
-//        }
-//        Spacer(modifier = Modifier.height(16.dp))
-//        LazyColumn (
-//            state = rememberLazyListState()
-//        )
-//        {
-//            //cach de filter theo priority va id
-//            val filteredTasks = state.list_tasks
-//                .filter { !hideCompleted.value || !it.done }
-//                .let { tasks ->
-//                    if (sortByPriority.value) {
-//                        tasks.sortedByDescending { it.priority }
-//                    } else {
-//                        tasks.sortedByDescending { it.id }
-//                    }
-//                }
-//
-//            items(items = filteredTasks, key = { it.id }) { task ->
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 8.dp)
-//                ) {
-//                    var state = rememberDismissState(
-//                        confirmValueChange = {
-//                            if ( it == DismissValue.DismissedToStart){
-//                                TaskList.remove(item)
-//                            }
-//                            true
-//                        }
-//                    )
-//                    //xóa id vì không cần thiết
-//                    Row {
-//                        Text(text = "Title: ${task.title}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
-//
-//                        Text(text = "Priority: ${task.priority}",fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(10.dp))
-//                    }
-//                    Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
-//                    Row(verticalAlignment = Alignment.CenterVertically) {
-//                        Checkbox(
-//                            checked = task.done,
-//                            onCheckedChange = { isChecked ->
-//                                taskListViewModel.updateTask(task.copy(done = isChecked))
-//                            },
-//                            modifier = Modifier.padding(10.dp)
-//                        )
-//                        Text(text = "Done")
-//                    }
-//                    SwipeToDismiss(state = state, background = , dismissContent = )
-//                    Button(onClick = { taskListViewModel.deleteTaskById(task.id) }) {
-//                        Text(text = "Delete")
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 @Composable
 fun TaskList(
     onClickBack: () -> Unit,
