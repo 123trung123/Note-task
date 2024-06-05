@@ -5,8 +5,11 @@ data class NoteUiState (
     val title: String = "",
     val content: String =""
 )
+
 data class NoteListUiState(
-    val list_notes: List<Note> = listOf()
+    val list_notes: List<Note> = listOf(),
+    val title: String = "",
+    val content: String =""
 )
 //data class TaskUiState (
 //    val id: String = "",
