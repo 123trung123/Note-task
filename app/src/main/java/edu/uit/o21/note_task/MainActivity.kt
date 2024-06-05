@@ -311,14 +311,6 @@ fun TaskDetail(
             label = { Text(text = "Priority") },
             modifier = Modifier.fillMaxWidth()
         )
-//        Spacer(modifier = Modifier.height(16.dp))
-//        Row(verticalAlignment = Alignment.CenterVertically) {
-//            Checkbox(
-//                checked = state.done,
-//                onCheckedChange = { taskViewModel.setDone(it) }
-//            )
-//            Text(text = "Done")
-//        }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { taskViewModel.insertTask() },
@@ -351,6 +343,113 @@ fun Header(text: String = "") {
         )
     }
 }
+@Composable
+fun NoteList(
+    onClickBack: () -> Unit,
+    toTheMain: () -> Unit,
+    noteViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
+) {
+    val state by noteViewModel.state.collectAsState()
+    val currentlyEditingNoteId = remember { mutableStateOf<Int?>(null) }
+    val editingTitle = remember { mutableStateOf("") }
+    val editingContent = remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .background(Color.LightGray)
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Header(text = "NOTE LIST")
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            ContentButton(onClick = onClickBack, text = "Back")
+            ContentButton(onClick = toTheMain, text = "Home")
+        }
+        LazyColumn {
+            items(items = state.list_notes, key = { it.id }) { note ->
+                val dismissState = rememberDismissState(
+                    confirmValueChange = {
+                        if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
+                            noteViewModel.deleteNoteById(note.id)
+                        }
+                        true
+                    }
+                )
+                SwipeToDismiss(
+                    state = dismissState,
+                    background = {
+                        val color = when (dismissState.dismissDirection) {
+                            DismissDirection.StartToEnd, DismissDirection.EndToStart -> Color.Red
+                            null -> Color.Transparent
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color)
+                                .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Text("Deleting", color = Color.LightGray)
+                        }
+                    },
+                    dismissContent = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                if (currentlyEditingNoteId.value == note.id) {
+                                    OutlinedTextField(
+                                        value = editingTitle.value,
+                                        onValueChange = { editingTitle.value = it },
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                    OutlinedTextField(
+                                        value = editingContent.value,
+                                        onValueChange = { editingContent.value = it },
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                    Button(onClick = {
+                                        noteViewModel.updateNote(note.copy(title = editingTitle.value, content = editingContent.value))
+                                        currentlyEditingNoteId.value = null
+                                    }) {
+                                        Text("Save")
+                                    }
+                                } else {
+                                    Text(
+                                        text = note.title,
+                                        fontSize = 25.sp,
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                    Text(
+                                        text = note.content,
+                                        fontSize = 25.sp,
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                    Button(onClick = {
+                                        currentlyEditingNoteId.value = note.id
+                                        editingTitle.value = note.title
+                                        editingContent.value = note.content
+                                    }) {
+                                        Text("Edit")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+//
 //@Composable
 //fun NoteList(
 //    onClickBack: () -> Unit,
@@ -358,10 +457,6 @@ fun Header(text: String = "") {
 //    noteViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
 //) {
 //    val state by noteViewModel.state.collectAsState()
-//    val currentlyEditingNoteId = remember { mutableStateOf<Int?>(null) }
-//    val editingTitle = remember { mutableStateOf("") }
-//    val editingContent = remember { mutableStateOf("") }
-//
 //    Column(
 //        modifier = Modifier
 //            .background(Color.LightGray)
@@ -369,7 +464,7 @@ fun Header(text: String = "") {
 //            .padding(16.dp)
 //    ) {
 //        Header(text = "NOTE LIST")
-//        Spacer(modifier = Modifier.height(16.dp))
+//        Spacer(modifier = Modifier.height(4.dp))
 //        Row(
 //            modifier = Modifier.fillMaxWidth(),
 //            horizontalArrangement = Arrangement.SpaceBetween
@@ -381,6 +476,7 @@ fun Header(text: String = "") {
 //                text = "Home"
 //            )
 //        }
+//        Spacer(modifier = Modifier.height(8.dp))
 //        LazyColumn {
 //            items(items = state.list_notes, key = { it.id }) { note ->
 //                val dismissState = rememberDismissState(
@@ -391,167 +487,56 @@ fun Header(text: String = "") {
 //                        true
 //                    }
 //                )
-//                SwipeToDismiss(state = dismissState,
+//                SwipeToDismiss(modifier=Modifier.border(1.dp, Color.Black),state = dismissState,
 //                    background = {
-//                        val color = when (dismissState.dismissDirection) {
-//                            DismissDirection.StartToEnd -> Color.Red
-//                            DismissDirection.EndToStart -> Color.Red
-//                            null -> Color.Transparent
-//                        }
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .background(color)
-//                                .padding(horizontal = 20.dp),
-//                            contentAlignment = Alignment.CenterStart
-//                        ) {
-//                            Text("Deleting", color = Color.LightGray)
-//                        }
-//                    },
-//                    dismissContent = {
-//                        Row(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(vertical = 8.dp),
-//                            horizontalArrangement = Arrangement.SpaceBetween,
-//                            verticalAlignment = Alignment.CenterVertically
-//                        ) {
-//                            Column {
-//                                if (currentlyEditingNoteId.value == note.id) {
-//                                    OutlinedTextField(
-//                                        value = editingTitle.value,
-//                                        onValueChange = { editingTitle.value = it },
-//                                        modifier = Modifier.padding(10.dp)
-//                                    )
-//
-//                                    OutlinedTextField(
-//                                        value = editingContent.value,
-//                                        onValueChange = { editingContent.value = it },
-//                                        modifier = Modifier.padding(10.dp)
-//                                    )
-//                                    Button(onClick = {
-//                                        noteViewModel.editTitle(editingTitle.value)
-//                                        noteViewModel.editContent(editingContent.value)
-//                                        noteViewModel.editNoteById()
-//                                        currentlyEditingNoteId.value = null
-//                                    }) {
-//                                        Text("Save")
-//                                    }
-//                                } else {
-//                                    Text(
-//                                        text = note.title,
-//                                        fontSize = 25.sp,
-//                                        modifier = Modifier.padding(10.dp)
-//                                    )
-//                                    Text(
-//                                        text = note.content,
-//                                        fontSize = 25.sp,
-//                                        modifier = Modifier.padding(10.dp)
-//                                    )
-//                                    Button(onClick = {
-//                                        currentlyEditingNoteId.value = note.id
-//                                        editingTitle.value = note.title
-//                                        editingContent.value = note.content
-//                                    }) {
-//                                        Text("Edit")
-//                                    }
-//                                }
-//                            }
-//                        }
+//                    val color = when (dismissState.dismissDirection) {
+//                        DismissDirection.StartToEnd -> Color.Red
+//                        DismissDirection.EndToStart -> Color.Red
+//                        null -> Color.Transparent
 //                    }
-//                )
-//            }
-//        }
-//    }
-//}
-
-@Composable
-fun NoteList(
-    onClickBack: () -> Unit,
-    toTheMain: () -> Unit,
-    noteViewModel: NoteListViewModel = viewModel(factory = AppViewModelNt.Factory)
-) {
-    val state by noteViewModel.state.collectAsState()
-    Column(
-        modifier = Modifier
-            .background(Color.LightGray)
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Header(text = "NOTE LIST")
-        Spacer(modifier = Modifier.height(4.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            ContentButton(onClick = onClickBack,
-                text = "Back"
-            )
-            ContentButton(onClick = toTheMain,
-                text = "Home"
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn {
-            items(items = state.list_notes, key = { it.id }) { note ->
-                val dismissState = rememberDismissState(
-                    confirmValueChange = {
-                        if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart){
-                            noteViewModel.deleteNoteById(note.id)
-                        }
-                        true
-                    }
-                )
-                SwipeToDismiss(modifier=Modifier.border(1.dp, Color.Black),state = dismissState,
-                    background = {
-                    val color = when (dismissState.dismissDirection) {
-                        DismissDirection.StartToEnd -> Color.Red
-                        DismissDirection.EndToStart -> Color.Red
-                        null -> Color.Transparent
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color)
-                            .padding(horizontal = 20.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Text("Deleting", color = Color.LightGray)
-                    }
-                },
-                    dismissContent = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(color)
+//                            .padding(horizontal = 20.dp),
+//                        contentAlignment = Alignment.CenterStart
+//                    ) {
+//                        Text("Deleting", color = Color.LightGray)
+//                    }
+//                },
+//                    dismissContent = {
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Column {
+////                        Text(
+////                            text = note.id.toString(),
+////                            fontSize = 25.sp,
+////                            modifier = Modifier.padding(10.dp)
+////                        )
 //                        Text(
-//                            text = note.id.toString(),
+//                            text = note.title,
+//                            fontSize = 25.sp,
+//                            fontWeight = FontWeight.Bold,
+//                            fontFamily = FontFamily.Serif,
+//                            modifier = Modifier.background(color = Color.Gray)
+//                                .fillMaxWidth()
+//                                .padding(5.dp)
+//                        )
+//                        Text(
+//                            text = note.content,
 //                            fontSize = 25.sp,
 //                            modifier = Modifier.padding(10.dp)
 //                        )
-                        Text(
-                            text = note.title,
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            modifier = Modifier.background(color = Color.Gray)
-                                .fillMaxWidth()
-                                .padding(5.dp)
-                        )
-                        Text(
-                            text = note.content,
-                            fontSize = 25.sp,
-                            modifier = Modifier.padding(10.dp)
-                        )
-                    }
-                }
-            })}
-        }
-    }
-}
+//                    }
+//                }
+//            })}
+//        }
+//    }
+//}
 @Composable
 fun TaskList(
     onClickBack: () -> Unit,

@@ -1,6 +1,7 @@
 package edu.uit.o21.note_task
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -8,6 +9,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
+    private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
+
     val state: StateFlow<NoteListUiState>
         get() {
             return dao.getAllNotes().map { NoteListUiState(it) }
@@ -17,9 +20,17 @@ class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
                     initialValue = NoteListUiState()
                 )
         }
+
+
     fun deleteNoteById(noteId: Int) {
         viewModelScope.launch {
             dao.deleteNoteById(noteId)
+        }
+    }
+
+    fun updateNote(note: Note) {
+        viewModelScope.launch {
+            dao.updateNote(note)
         }
     }
 }
