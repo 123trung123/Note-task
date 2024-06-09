@@ -337,7 +337,7 @@ fun Header(text: String = "") {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .background(Color.Gray)
+            .background(Color(0xFF90CAF9))
             .fillMaxWidth()
             .padding(15.dp)
     ) {
@@ -568,7 +568,7 @@ fun TaskList(
                                 .fillMaxWidth()
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                                .background(color = Color.Gray)
+                                .background(color = Color(0xFF90CAF9))
                                 .fillMaxWidth()){
                                 Text(
                                     text = "Priority: ${task.priority}",
