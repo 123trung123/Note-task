@@ -339,7 +339,7 @@ fun Header(text: String = "") {
         modifier = Modifier
             .background(Color.Gray)
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(15.dp)
     ) {
         Text(
             text = text,
@@ -364,13 +364,12 @@ fun NoteList(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
-
+            .padding(16.dp)
     ) {
         Header(text = "NOTE LIST")
         Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(onClick = onClickBack, text = "Back")
@@ -407,7 +406,8 @@ fun NoteList(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .padding(vertical = 8.dp)
+                                .border(1.dp, Color.Black),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -438,12 +438,13 @@ fun NoteList(
                                 } else {
                                     Text(
                                         text = note.title,
-                                        fontSize = 25.sp,
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold,
                                         modifier = Modifier.padding(10.dp)
                                     )
                                     Text(
                                         text = note.content,
-                                        fontSize = 25.sp,
+                                        fontSize = 21.sp,
                                         modifier = Modifier.padding(10.dp)
                                     )
                                     Button(
@@ -557,7 +558,7 @@ fun TaskList(
                                 .padding(horizontal = 20.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            Text("Deleting", color = Color.LightGray)
+                            Text("Deleting", color = Color(0xFFE3F2FD))
                         }
                     },
                     dismissContent = {
