@@ -2,7 +2,6 @@
 package edu.uit.o21.note_task
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,7 +53,6 @@ fun TaskDetail(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Header(text = "TASK DETAIL")
         Spacer(modifier = Modifier.height(4.dp))
@@ -76,23 +75,23 @@ fun TaskDetail(
             value = state.title,
             onValueChange = { taskViewModel.setTitle(it) },
             label = { Text(text = "Title") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { taskViewModel.setcontent(it) },
             label = { Text(text = "Content") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.priority.toString(),
             onValueChange = { taskViewModel.setPriority(it.toIntOrNull() ?: 0) },
             label = { Text(text = "Priority") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Button(
             onClick = { taskViewModel.insertTask() },
             modifier = Modifier
@@ -147,7 +146,7 @@ fun TaskList(
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -156,7 +155,6 @@ fun TaskList(
                 text = if (hideCompleted.value) "Hide" else "Show"
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
         LazyColumn (
             state = rememberLazyListState()
         ) {
@@ -179,6 +177,7 @@ fun TaskList(
                         true
                     }
                 )
+                Spacer(modifier = Modifier.height(20.dp))
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
@@ -201,14 +200,22 @@ fun TaskList(
                         }
                     },
                     dismissContent = {
+                        Spacer(modifier = Modifier.height(16.dp))
                         Column(modifier = Modifier
-                                .padding(horizontal = 4.dp)
-                                .border(1.dp, Color.Black)
-                                .fillMaxSize()
+                            .padding(horizontal = 4.dp)
+                            .clip(shape = RoundedCornerShape(12.dp))
+                            .background(Color(0xFFBBDEFB))
+                            .fillMaxSize()
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                                 .background(color = Color(0xFF90CAF9))
                                 .fillMaxWidth()){
+                                Text(
+                                    text = task.title,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    modifier = Modifier.padding(10.dp)
+                                )
                                 Text(
                                     text = "Priority: ${task.priority}",
                                     fontWeight = FontWeight.Bold,
@@ -222,15 +229,10 @@ fun TaskList(
                                     },
                                     modifier = Modifier.padding(10.dp)
                                 )
-                                Text(fontWeight = FontWeight.Bold,fontSize = 20.sp,text = "Done")
+                                Text(fontWeight = FontWeight.Bold,fontSize = 20.sp,text ="")
                             }
-                            Text(
-                                text = "Title: ${task.title}",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp,
-                                modifier = Modifier.padding(10.dp)
-                            )
-                            Text(text = task.content, fontSize = 15.sp, modifier = Modifier.padding(10.dp))
+
+                            Text(text = task.content, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
                         }
                     }
                 )

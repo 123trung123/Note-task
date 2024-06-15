@@ -2,7 +2,6 @@
 package edu.uit.o21.note_task
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,7 +51,6 @@ fun NoteDetail(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Header(text = "NOTE DETAIL")
         Spacer(modifier = Modifier.height(4.dp))
@@ -60,7 +59,8 @@ fun NoteDetail(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(onClick = onClickBack,
-                text = "Back")
+                text = "Back"
+            )
             ContentButton(onClick = toNoteList,
                 text = "View Notes"
             )
@@ -73,16 +73,16 @@ fun NoteDetail(
             value = state.title,
             onValueChange = { noteViewModel.setTitle(it) },
             label = { Text(text = "Title") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { noteViewModel.setcontent(it) },
             label = { Text(text = "Content") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Button(
             onClick = { noteViewModel.insertNote() },
             modifier = Modifier
@@ -124,6 +124,7 @@ fun NoteList(
         }
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn {
+
             items(items = state.list_notes, key = { it.id }) { note ->
                 val dismissState = rememberDismissState(
                     confirmValueChange = {
@@ -133,6 +134,7 @@ fun NoteList(
                         true
                     }
                 )
+                Spacer(modifier = Modifier.height(20.dp))
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
@@ -156,8 +158,9 @@ fun NoteList(
                         Row(
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
-                                .fillMaxWidth()
-                                .border(1.dp, Color.Black),
+                                .clip(shape = RoundedCornerShape(12.dp))
+                                .background(Color(0xFFBBDEFB))
+                                .fillMaxSize(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {

@@ -209,8 +209,7 @@ fun TheMain(
     Column(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AsyncImage(modifier = Modifier
