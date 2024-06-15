@@ -87,11 +87,11 @@ fun NoteDetail(
             onClick = { noteViewModel.insertNote() },
             modifier = Modifier
                 .align(Alignment.End)
-                .width(130.dp)
-                .height(50.dp)
+                .width(90.dp)
+                .height(90.dp)
                 .padding(1.dp),
             shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(Color.Black)
+            colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
             Text(text = "Add")
         }
@@ -112,7 +112,6 @@ fun NoteList(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Header(text = "NOTE LIST")
         Spacer(modifier = Modifier.height(4.dp))
@@ -123,6 +122,7 @@ fun NoteList(
             ContentButton(onClick = onClickBack, text = "Back")
             ContentButton(onClick = toTheMain, text = "Home")
         }
+        Spacer(modifier = Modifier.height(20.dp))
         LazyColumn {
             items(items = state.list_notes, key = { it.id }) { note ->
                 val dismissState = rememberDismissState(
@@ -143,18 +143,20 @@ fun NoteList(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(color)
-                                .padding(horizontal = 20.dp),
+                                .background(color),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            Text("Deleting", color = Color(0xFFE3F2FD))
+                            Text("Deleting",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFFE3F2FD))
                         }
                     },
                     dismissContent = {
                         Row(
                             modifier = Modifier
+                                .padding(horizontal = 4.dp)
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp)
                                 .border(1.dp, Color.Black),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically

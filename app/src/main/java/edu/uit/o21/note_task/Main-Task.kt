@@ -97,11 +97,11 @@ fun TaskDetail(
             onClick = { taskViewModel.insertTask() },
             modifier = Modifier
                 .align(Alignment.End)
-                .width(130.dp)
-                .height(50.dp)
+                .width(90.dp)
+                .height(90.dp)
                 .padding(1.dp),
             shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(Color.Black)
+            colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
             Text(text = "Add", color = Color.White)
         }
@@ -121,7 +121,6 @@ fun TaskList(
         modifier = Modifier
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Header(text = "TASK LIST")
         Spacer(modifier = Modifier.height(4.dp))
@@ -190,19 +189,22 @@ fun TaskList(
                         }
                         Box(
                             modifier = Modifier
-                                .fillMaxSize()
                                 .background(color)
-                                .padding(horizontal = 20.dp),
+                                .padding(20.dp)
+                                .fillMaxSize(),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            Text("Deleting", color = Color(0xFFE3F2FD))
+                            Text("Deleting",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFFE3F2FD))
                         }
                     },
                     dismissContent = {
-                        Column(
-                            modifier = Modifier
+                        Column(modifier = Modifier
+                                .padding(horizontal = 4.dp)
                                 .border(1.dp, Color.Black)
-                                .fillMaxWidth()
+                                .fillMaxSize()
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                                 .background(color = Color(0xFF90CAF9))
