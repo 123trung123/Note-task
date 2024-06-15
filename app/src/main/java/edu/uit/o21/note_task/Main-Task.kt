@@ -16,6 +16,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -40,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
+
 @Composable
 fun TaskDetail(
     modifier: Modifier = Modifier,
@@ -60,14 +65,18 @@ fun TaskDetail(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ContentButton(onClick = onClickBack,
-                text = "Back"
+            ContentButton(
+                onClick = onClickBack,
+                text = "Back",
+                icon = Icons.Default.ArrowBack
             )
             ContentButton(onClick = toTaskList,
-                text = "View Tasks"
+                text = "Tasks",
+                icon = Icons.Default.CheckCircle
             )
             ContentButton(onClick = toNoteDetail,
-                text = "to Notes"
+                text = "Notes",
+                icon = Icons.Default.List
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -127,12 +136,12 @@ fun TaskList(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ContentButton(onClick = onClickBack,
-                text = "Back"
+            ContentButton(
+                onClick = onClickBack,
+                text = "Back",
+                icon = Icons.Default.ArrowBack
             )
-            ContentButton(onClick = toTheMain,
-                text = "Home"
-            )
+
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(

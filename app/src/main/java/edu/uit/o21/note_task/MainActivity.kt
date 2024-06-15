@@ -18,9 +18,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -74,37 +80,60 @@ fun StyledButton(
     }
 }
 @Composable
-fun ContentButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    text: String
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .width(130.dp)
-            .height(50.dp)
-            .padding(1.dp),
-        shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
-    ) {
-        Text(text = text, color = Color.White)
-    }
-}
-@Composable
 fun BottomBarButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
+    icon: ImageVector? = null,
+    contentDescription: String? = null
 ) {
     Button(
         onClick = onClick,
         modifier = modifier
+            .height(60.dp)
+            .padding(horizontal = 10.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+    ) {
+        Column( horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()) {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = contentDescription
+                )
+            }
+            Text(text = text, color = Color.White,
+                fontSize = 12.sp
+            )
+        }
+
+    }
+}
+@Composable
+fun ContentButton(
+    onClick: () -> Unit,
+    text: String,
+    icon: ImageVector? = null,
+    contentDescription: String? = null
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .width(140.dp)
             .height(50.dp)
             .padding(1.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
     ) {
+        icon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = contentDescription,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+        }
         Text(text = text, color = Color.White)
     }
 }
@@ -183,17 +212,20 @@ fun HomeScreen(
                 BottomBarButton(
                     onClick = { navHostController.navigate("NoteDetail") },
                     modifier = Modifier.weight(1f),
-                    text = "Note"
+                    text = "Note",
+                    icon = Icons.Default.DateRange
                 )
                 BottomBarButton(
                     onClick = { navHostController.navigate("TheMain") },
                     modifier = Modifier.weight(1f),
-                    text = "Home"
+                    text = "Home",
+                    icon = Icons.Default.Home
                 )
                 BottomBarButton(
                     onClick = { navHostController.navigate("TaskDetail") },
                     modifier = Modifier.weight(1f),
-                    text = "Task"
+                    text = "Task",
+                        icon = Icons.Default.Check
                 )
             }
         }

@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DismissDirection
@@ -58,14 +62,19 @@ fun NoteDetail(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ContentButton(onClick = onClickBack,
-                text = "Back"
+            ContentButton(
+                onClick = onClickBack,
+                text = "Back",
+                icon = Icons.Default.ArrowBack
             )
             ContentButton(onClick = toNoteList,
-                text = "View Notes"
+                text = "Notes",
+                icon = Icons.Default.List
             )
             ContentButton(onClick = toTaskDetail ,
-                text = "to Tasks"
+
+                icon = Icons.Default.CheckCircle,
+                        text = "Tasks",
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -113,14 +122,16 @@ fun NoteList(
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
     ) {
-        Header(text = "NOTE LIST")
         Spacer(modifier = Modifier.height(4.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ContentButton(onClick = onClickBack, text = "Back")
-            ContentButton(onClick = toTheMain, text = "Home")
+            ContentButton(
+                onClick = onClickBack,
+                text = "Back",
+                icon = Icons.Default.ArrowBack
+            )
         }
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn {
