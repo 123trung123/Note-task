@@ -11,17 +11,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -53,20 +56,23 @@ fun NoteDetail(
     val state by noteViewModel.state.collectAsState()
     Column(
         modifier = Modifier
-            .background(Color(0xFFE3F2FD))
             .fillMaxSize()
+            .background(Color(0xFFE3F2FD))
     ) {
-        Header(text = "NOTE DETAIL")
-        Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(130.dp)
+                .background(Color(0xFF90CAF9)),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ContentButton(
                 onClick = onClickBack,
                 text = "Back",
                 icon = Icons.Default.ArrowBack
             )
+            Header(text = "NOTE DETAIL")
             ContentButton(onClick = toNoteList,
                 text = "Notes",
 //                icon = Icons.Default.List
@@ -77,14 +83,14 @@ fun NoteDetail(
 //                        text = "Tasks",
 //            )
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(
             value = state.title,
             onValueChange = { noteViewModel.setTitle(it) },
             label = { Text(text = "Title") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 6.dp)
+                .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
@@ -93,7 +99,7 @@ fun NoteDetail(
             label = { Text(text = "Content") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 6.dp)
+                .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Button(
@@ -127,9 +133,9 @@ fun NoteList(
             .fillMaxSize()
             .background(Color(0xFFE3F2FD))
     ) {
-        Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(
@@ -173,7 +179,13 @@ fun NoteList(
                                 .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            Text("Deleting",
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete Icon",
+                                tint = Color(0xFFE3F2FD),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Text("",
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFE3F2FD))

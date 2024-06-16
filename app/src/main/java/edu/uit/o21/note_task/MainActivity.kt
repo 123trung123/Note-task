@@ -75,13 +75,13 @@ fun StyledButton(
         onClick = onClick,
         modifier = modifier
             .width(190.dp)
-            .height(80.dp)
+            .height(90.dp)
             .padding(vertical = 10.dp)
             .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
     ) {
-        Text(text = text, fontSize = 18.sp, color = Color.White)
+        Text(text = text, fontSize = 21.sp, color = Color.White)
     }
 }
 @Composable
@@ -98,7 +98,7 @@ fun BottomBarButton(
             .height(60.dp)
             .padding(horizontal = 10.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+        colors = ButtonDefaults.buttonColors(Color(0xFF263238))
     ) {
         Column( horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -106,11 +106,11 @@ fun BottomBarButton(
             icon?.let {
                 Icon(
                     imageVector = it,
-                    tint = Color.Black,
+                    tint = Color.White,
                     contentDescription = contentDescription
                 )
             }
-            Text(text = text, color = Color.Black,
+            Text(text = text, color = Color.White,
                 fontSize = 12.sp
             )
         }
@@ -127,8 +127,8 @@ fun ContentButton(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .width(130.dp)
-            .height(50.dp)
+            .width(105.dp)
+            .height(60.dp)
             .padding(horizontal = 4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
@@ -145,6 +145,32 @@ fun ContentButton(
     }
 }
 @Composable
+fun TaskButton(
+    onClick: () -> Unit,
+    text: String,
+    icon: ImageVector? = null,
+    contentDescription: String? = null
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .width(135.dp)
+            .height(60.dp)
+            .padding(horizontal = 4.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+    ) {
+        icon?.let {
+            Icon(
+                imageVector = it,
+                tint = Color.Black,
+                contentDescription = contentDescription,
+            )
+        }
+        Text(text = text, fontSize = 18.sp, color = Color.Black)
+    }
+}
+@Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController()
@@ -155,22 +181,22 @@ fun HomeScreen(
         topBar = {
             if (currentRoute == "TheMain"){
            Row (modifier = Modifier
-               .background(Color.White),
+               .height(130.dp)
+               .background(color= Color.White),
                verticalAlignment = Alignment.CenterVertically){
+               AsyncImage(
+                   modifier = Modifier
+                       .size(95.dp)
+                       .padding(16.dp)
+                       .background(Color.DarkGray),
+                   contentDescription = null,
+                   contentScale = ContentScale.Crop,
+                   model = "https://png.pngtree.com/png-vector/20190324/ourmid/pngtree-vector-notes-icon-png-image_862518.jpg",
+               )
                 TopAppBar(modifier = Modifier
-                    .weight(1f)
-                    .background(Color.Gray),
+                    .background(Color(0xFF2962FF)),
                     title = { Text(text = "QUICK NOTE & TASK", fontStyle = FontStyle.Italic, fontFamily = FontFamily.Serif, fontWeight = FontWeight.ExtraBold) }
                 )
-                 AsyncImage(
-                     modifier = Modifier
-                         .size(95.dp)
-                         .padding(16.dp)
-                         .background(Color.DarkGray),
-                     contentDescription = null,
-                     contentScale = ContentScale.Crop,
-                     model = "https://png.pngtree.com/png-vector/20190324/ourmid/pngtree-vector-notes-icon-png-image_862518.jpg",
-                 )
            } }},
         content = { innerPadding ->
             NavHost(
@@ -217,7 +243,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .height(66.dp)
                     .fillMaxWidth()
-                    .background(Color(0xFF90CAF9)),
+                    .background(Color(0xFF263238)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -261,13 +287,14 @@ fun TheMain(
             model = "https://assets-global.website-files.com/5f7ece8a7da656e8a25402bc/631f32ee984371cb97df4ce2_How%20to%20take%20notes%20from%20a%20textbook-p-800.png",
             contentDescription = null,
         )
+        Spacer(modifier = Modifier.padding(25.dp))
         Row {
             StyledButton(onClick = toNoteDetail, modifier = Modifier,
-                text = "Make Note"
+                text = "Take Note"
             )
-            Spacer(modifier = Modifier.padding(15.dp))
+            Spacer(modifier = Modifier.padding(18.dp))
             StyledButton(onClick = toTaskDetail, modifier = Modifier,
-                text = "Make Task"
+                text = "Add Task"
             )
         }
     }
@@ -278,12 +305,11 @@ fun Header(text: String = "") {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .background(Color(0xFF90CAF9), shape = RoundedCornerShape(4.dp))
-            .fillMaxWidth()
-            .padding(25.dp)
+            .padding(vertical = 14.dp)
     ) {
         Text(
             text = text,
-            fontSize = 30.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
             fontFamily =  FontFamily.Serif
         )

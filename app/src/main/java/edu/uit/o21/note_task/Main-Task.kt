@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,12 +19,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
@@ -58,17 +61,20 @@ fun TaskDetail(
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
     ) {
-        Header(text = "TASK DETAIL")
-        Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(130.dp)
+                .background(Color(0xFF90CAF9)),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ContentButton(
                 onClick = onClickBack,
                 text = "Back",
                 icon = Icons.Default.ArrowBack
             )
+            Header(text = "TASK DETAIL")
             ContentButton(onClick = toTaskList,
                 text = "Tasks",
 //                icon = Icons.Default.CheckCircle
@@ -78,26 +84,32 @@ fun TaskDetail(
 //                icon = Icons.Default.List
 //            )
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(
             value = state.title,
             onValueChange = { taskViewModel.setTitle(it) },
             label = { Text(text = "Title") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { taskViewModel.setcontent(it) },
             label = { Text(text = "Content") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.priority.toString(),
             onValueChange = { taskViewModel.setPriority(it.toIntOrNull() ?: 0) },
             label = { Text(text = "Priority") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Button(
@@ -130,9 +142,9 @@ fun TaskList(
             .fillMaxSize()
             .background(Color(0xFFE3F2FD))
     ) {
-        Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(
@@ -140,7 +152,6 @@ fun TaskList(
                 text = "Back",
                 icon = Icons.Default.ArrowBack
             )
-
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -148,18 +159,21 @@ fun TaskList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Currently sorted by:", fontSize = 20.sp)
-            ContentButton(onClick = { sortByPriority.value = !sortByPriority.value },
+            Text(text = " Currently sorted by:", fontSize = 20.sp)
+            TaskButton(onClick = { sortByPriority.value = !sortByPriority.value },
                 text = if (sortByPriority.value) "Priority" else "Newest"
             )
         }
+        Spacer(modifier = Modifier.height(4.dp))
         Row(
-            modifier = Modifier.fillMaxWidth().height(50.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Show Completed:", fontSize = 20.sp)
-            ContentButton(onClick = { hideCompleted.value = !hideCompleted.value },
+            Text(text = " Show Completed:", fontSize = 20.sp)
+            TaskButton(onClick = { hideCompleted.value = !hideCompleted.value },
                 text = if (hideCompleted.value) "Hide" else "Show"
             )
         }
@@ -201,8 +215,13 @@ fun TaskList(
                                 .background(color)
                                 .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
-                        ) {
-                            Text("Deleting",
+                        ) {Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete Icon",
+                            tint = Color(0xFFE3F2FD),
+                            modifier = Modifier.size(24.dp)
+                        )
+                            Text("",
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFE3F2FD))
