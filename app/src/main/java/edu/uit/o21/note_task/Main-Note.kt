@@ -120,8 +120,8 @@ fun NoteList(
 
     Column(
         modifier = Modifier
-            .background(Color(0xFFE3F2FD))
             .fillMaxSize()
+            .background(Color(0xFFE3F2FD))
     ) {
         Spacer(modifier = Modifier.height(4.dp))
         Row(
@@ -157,8 +157,7 @@ fun NoteList(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .shadow(8.dp)
-
+//                                .shadow(8.dp)
                                 .background(color),
                             contentAlignment = Alignment.CenterStart
                         ) {
@@ -173,7 +172,8 @@ fun NoteList(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(horizontal = 4.dp)
-                                .shadow(8.dp, shape = RoundedCornerShape(12.dp))
+                                .padding(vertical = 4.dp)
+                                .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                                 .clip(shape = RoundedCornerShape(12.dp))
                                 .background(Color(0xFFBBDEFB)),
                             horizontalArrangement = Arrangement.SpaceBetween,

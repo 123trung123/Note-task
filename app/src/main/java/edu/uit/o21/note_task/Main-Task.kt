@@ -128,8 +128,8 @@ fun TaskList(
 
     Column(
         modifier = Modifier
-            .background(Color(0xFFE3F2FD))
             .fillMaxSize()
+            .background(Color(0xFFE3F2FD))
     ) {
         Spacer(modifier = Modifier.height(4.dp))
         Row(
@@ -197,9 +197,9 @@ fun TaskList(
                         }
                         Box(
                             modifier = Modifier
+                                .fillMaxSize()
                                 .background(color)
-                                .padding(20.dp)
-                                .fillMaxSize(),
+                                .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             Text("Deleting",
@@ -211,10 +211,12 @@ fun TaskList(
                     dismissContent = {
                         Spacer(modifier = Modifier.height(16.dp))
                         Column(modifier = Modifier
+                            .fillMaxSize()
                             .padding(horizontal = 4.dp)
+                            .padding(vertical = 8.dp)
+                            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                             .clip(shape = RoundedCornerShape(12.dp))
                             .background(Color(0xFFBBDEFB))
-                            .fillMaxSize()
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                                 .background(color = Color(0xFF90CAF9))
