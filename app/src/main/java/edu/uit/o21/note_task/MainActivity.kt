@@ -31,6 +31,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import edu.uit.o21.note_task.ui.theme.NotetaskTheme
@@ -142,8 +144,11 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController()
 ) {
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     Scaffold(
         topBar = {
+            if (currentRoute == "TheMain"){
            Row (modifier = Modifier
                .background(Color.White),
                verticalAlignment = Alignment.CenterVertically){
@@ -160,7 +165,8 @@ fun HomeScreen(
                      contentDescription = null,
                      contentScale = ContentScale.Crop,
                      model = "https://png.pngtree.com/png-vector/20190324/ourmid/pngtree-vector-notes-icon-png-image_862518.jpg",
-                 ) } },
+                 )
+           } }},
         content = { innerPadding ->
             NavHost(
                 navController = navHostController,
@@ -177,7 +183,7 @@ fun HomeScreen(
                     NoteDetail(
                         onClickBack = { navHostController.navigateUp() },
                         toNoteList = { navHostController.navigate("NoteList") },
-                        toTaskDetail = { navHostController.navigate("TaskDetail") }
+//                        toTaskDetail = { navHostController.navigate("TaskDetail") }
                     )
                 }
                 composable(route = "NoteList") {
@@ -190,7 +196,7 @@ fun HomeScreen(
                     TaskDetail(
                         onClickBack = { navHostController.navigateUp() },
                         toTaskList = { navHostController.navigate("TaskList") },
-                        toNoteDetail = { navHostController.navigate("NoteDetail") }
+//                        toNoteDetail = { navHostController.navigate("NoteDetail") }
                     )
                 }
                 composable(route = "TaskList") {
@@ -204,22 +210,23 @@ fun HomeScreen(
         bottomBar = {
             Row(
                 modifier = Modifier
-                    .height(56.dp)
-                    .fillMaxWidth(),
+                    .height(66.dp)
+                    .fillMaxWidth()
+                    .background(Color.LightGray),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                BottomBarButton(
-                    onClick = { navHostController.navigate("NoteDetail") },
-                    modifier = Modifier.weight(1f),
-                    text = "Note",
-                    icon = Icons.Default.DateRange
-                )
                 BottomBarButton(
                     onClick = { navHostController.navigate("TheMain") },
                     modifier = Modifier.weight(1f),
                     text = "Home",
                     icon = Icons.Default.Home
+                )
+                BottomBarButton(
+                    onClick = { navHostController.navigate("NoteDetail") },
+                    modifier = Modifier.weight(1f),
+                    text = "Note",
+                    icon = Icons.Default.DateRange
                 )
                 BottomBarButton(
                     onClick = { navHostController.navigate("TaskDetail") },

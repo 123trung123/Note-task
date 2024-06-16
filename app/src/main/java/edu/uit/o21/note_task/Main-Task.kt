@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -50,7 +49,7 @@ fun TaskDetail(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     toTaskList: () -> Unit,
-    toNoteDetail: () -> Unit,
+//    toNoteDetail: () -> Unit,
     taskViewModel: TaskViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskViewModel.state.collectAsState()
@@ -74,10 +73,10 @@ fun TaskDetail(
                 text = "Tasks",
                 icon = Icons.Default.CheckCircle
             )
-            ContentButton(onClick = toNoteDetail,
-                text = "Notes",
-                icon = Icons.Default.List
-            )
+//            ContentButton(onClick = toNoteDetail,
+//                text = "Notes",
+//                icon = Icons.Default.List
+//            )
         }
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
@@ -105,9 +104,9 @@ fun TaskDetail(
             onClick = { taskViewModel.insertTask() },
             modifier = Modifier
                 .align(Alignment.End)
+                .padding(8.dp)
                 .width(90.dp)
-                .height(90.dp)
-                .padding(1.dp),
+                .height(90.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
@@ -130,7 +129,6 @@ fun TaskList(
             .background(Color(0xFFE3F2FD))
             .fillMaxSize()
     ) {
-        Header(text = "TASK LIST")
         Spacer(modifier = Modifier.height(4.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),

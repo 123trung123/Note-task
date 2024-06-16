@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -47,7 +46,7 @@ fun NoteDetail(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     toNoteList: () -> Unit,
-    toTaskDetail: () -> Unit,
+//    toTaskDetail: () -> Unit,
     noteViewModel: NoteViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
@@ -71,11 +70,11 @@ fun NoteDetail(
                 text = "Notes",
                 icon = Icons.Default.List
             )
-            ContentButton(onClick = toTaskDetail ,
-
-                icon = Icons.Default.CheckCircle,
-                        text = "Tasks",
-            )
+//            ContentButton(onClick = toTaskDetail ,
+//
+//                icon = Icons.Default.CheckCircle,
+//                        text = "Tasks",
+//            )
         }
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
@@ -96,9 +95,9 @@ fun NoteDetail(
             onClick = { noteViewModel.insertNote() },
             modifier = Modifier
                 .align(Alignment.End)
+                .padding(8.dp)
                 .width(90.dp)
-                .height(90.dp)
-                .padding(1.dp),
+                .height(90.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
@@ -181,6 +180,7 @@ fun NoteList(
                                         value = editingTitle.value,
                                         onValueChange = { editingTitle.value = it },
                                         modifier = Modifier.padding(10.dp)
+                                                .fillMaxWidth()
                                     )
                                     OutlinedTextField(
                                         value = editingContent.value,
@@ -204,12 +204,16 @@ fun NoteList(
                                         text = note.title,
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold,
-                                        modifier = Modifier.padding(10.dp)
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(10.dp)
                                     )
                                     Text(
                                         text = note.content,
-                                        fontSize = 21.sp,
-                                        modifier = Modifier.padding(10.dp)
+                                        fontSize = 24.sp,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(10.dp)
                                     )
                                     Button(
                                         modifier = Modifier
