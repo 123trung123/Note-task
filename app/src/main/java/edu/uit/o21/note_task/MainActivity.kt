@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -74,7 +75,9 @@ fun StyledButton(
         onClick = onClick,
         modifier = modifier
             .width(180.dp)
-            .padding(vertical = 10.dp),
+            .height(70.dp)
+            .padding(vertical = 10.dp)
+            .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
     ) {
@@ -125,7 +128,8 @@ fun ContentButton(
         modifier = Modifier
             .width(140.dp)
             .height(50.dp)
-            .padding(1.dp),
+            .padding(1.dp)
+            .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
     ) {

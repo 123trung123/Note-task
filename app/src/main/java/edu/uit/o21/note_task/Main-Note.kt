@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -97,7 +98,8 @@ fun NoteDetail(
                 .align(Alignment.End)
                 .padding(8.dp)
                 .width(90.dp)
-                .height(90.dp),
+                .height(90.dp)
+                .shadow(4.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
@@ -155,6 +157,8 @@ fun NoteList(
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
+                                .shadow(8.dp)
+
                                 .background(color),
                             contentAlignment = Alignment.CenterStart
                         ) {
@@ -167,10 +171,11 @@ fun NoteList(
                     dismissContent = {
                         Row(
                             modifier = Modifier
+                                .fillMaxSize()
                                 .padding(horizontal = 4.dp)
+                                .shadow(8.dp, shape = RoundedCornerShape(12.dp))
                                 .clip(shape = RoundedCornerShape(12.dp))
-                                .background(Color(0xFFBBDEFB))
-                                .fillMaxSize(),
+                                .background(Color(0xFFBBDEFB)),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -185,7 +190,7 @@ fun NoteList(
                                     OutlinedTextField(
                                         value = editingContent.value,
                                         onValueChange = { editingContent.value = it },
-                                        modifier = Modifier.padding(10.dp)
+                                        modifier = Modifier.padding(10.dp).fillMaxWidth()
                                     )
                                     Button(modifier = Modifier
                                         .width(110.dp)
