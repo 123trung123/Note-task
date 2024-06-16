@@ -23,19 +23,3 @@ object AppViewModelNt {
         }
     }
 }
-//
-//object AppViewModelNt {
-//    val NoteFactory = viewModelFactory {
-//        initializer {
-//            val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NoteTaskApplication
-//            NoteViewModel(app.dao)
-//        }
-//    }
-//
-//    val TaskFactory = viewModelFactory {
-//        initializer {
-//            val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as NoteTaskApplication
-//            TaskViewModel(app.dao)
-//        }
-//    }
-//}

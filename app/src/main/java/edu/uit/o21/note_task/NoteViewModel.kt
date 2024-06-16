@@ -11,17 +11,7 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
     val state: StateFlow<NoteUiState> = _state.asStateFlow()
 
-//    fun setId(id: String) {
-////        _state.update {
-////            it.copy(id = id)
-////        }
-//        _state.value = _state.value.copy(id = id)
-//    }
-
     fun setTitle(title: String) {
-//        _state.update {
-//            it.copy(title = title)
-//        }
         _state.value = _state.value.copy(title = title)
     }
 

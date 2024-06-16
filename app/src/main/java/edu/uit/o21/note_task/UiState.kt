@@ -11,12 +11,6 @@ data class NoteListUiState(
     val title: String = "",
     val content: String =""
 )
-//data class TaskUiState (
-//    val id: String = "",
-//    val title:String = "",
-//    val content: String = "",
-//    val isChecked: Boolean = false
-//)
 data class TaskUiState (
     val id: Int = 0,
     val title: String = "",
