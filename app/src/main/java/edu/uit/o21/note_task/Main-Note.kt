@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DismissDirection
@@ -38,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,7 +57,7 @@ fun NoteDetail(
             .fillMaxSize()
     ) {
         Header(text = "NOTE DETAIL")
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -69,7 +69,7 @@ fun NoteDetail(
             )
             ContentButton(onClick = toNoteList,
                 text = "Notes",
-                icon = Icons.Default.List
+//                icon = Icons.Default.List
             )
 //            ContentButton(onClick = toTaskDetail ,
 //
@@ -82,14 +82,18 @@ fun NoteDetail(
             value = state.title,
             onValueChange = { noteViewModel.setTitle(it) },
             label = { Text(text = "Title") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
             value = state.content,
             onValueChange = { noteViewModel.setcontent(it) },
             label = { Text(text = "Content") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Button(
@@ -99,8 +103,8 @@ fun NoteDetail(
                 .padding(8.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(4.dp),
-            shape = RoundedCornerShape(8.dp),
+                .shadow(4.dp, shape = RoundedCornerShape(35.dp)),
+            shape = RoundedCornerShape(35.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
             Text(text = "Add")
@@ -135,8 +139,14 @@ fun NoteList(
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "Notes",
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
         LazyColumn {
-
             items(items = state.list_notes, key = { it.id }) { note ->
                 val dismissState = rememberDismissState(
                     confirmValueChange = {
@@ -156,13 +166,15 @@ fun NoteList(
                         }
                         Box(
                             modifier = Modifier
+                                .padding(vertical = 4.dp)
                                 .fillMaxSize()
 //                                .shadow(8.dp)
-                                .background(color),
+                                .background(color)
+                                .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             Text("Deleting",
-                                fontSize = 30.sp,
+                                fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFE3F2FD))
                         }
@@ -171,7 +183,7 @@ fun NoteList(
                         Row(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(horizontal = 4.dp)
+                                .padding(horizontal = 12.dp)
                                 .padding(vertical = 4.dp)
                                 .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                                 .clip(shape = RoundedCornerShape(12.dp))
@@ -184,20 +196,24 @@ fun NoteList(
                                     OutlinedTextField(
                                         value = editingTitle.value,
                                         onValueChange = { editingTitle.value = it },
-                                        modifier = Modifier.padding(10.dp)
-                                                .fillMaxWidth()
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                            .fillMaxWidth()
                                     )
                                     OutlinedTextField(
                                         value = editingContent.value,
                                         onValueChange = { editingContent.value = it },
-                                        modifier = Modifier.padding(10.dp).fillMaxWidth()
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                            .fillMaxWidth()
                                     )
                                     Button(modifier = Modifier
+                                        .padding(1.dp)
                                         .width(110.dp)
                                         .height(40.dp)
                                         .padding(1.dp),
                                         shape = RoundedCornerShape(8.dp),
-                                        colors = ButtonDefaults.buttonColors(Color.Black),
+                                        colors = ButtonDefaults.buttonColors(Color(0xFF42A5F5)),
                                         onClick = {
                                             noteViewModel.updateNote(note.copy(title = editingTitle.value, content = editingContent.value))
                                             currentlyEditingNoteId.value = null
@@ -222,11 +238,12 @@ fun NoteList(
                                     )
                                     Button(
                                         modifier = Modifier
+                                            .padding(1.dp)
                                             .width(110.dp)
                                             .height(40.dp)
                                             .padding(1.dp),
                                         shape = RoundedCornerShape(8.dp),
-                                        colors = ButtonDefaults.buttonColors(Color.Black),
+                                        colors = ButtonDefaults.buttonColors(Color(0xFF42A5F5)),
                                         onClick = {
                                             currentlyEditingNoteId.value = note.id
                                             editingTitle.value = note.title

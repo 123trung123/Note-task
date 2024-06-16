@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -60,7 +59,7 @@ fun TaskDetail(
             .fillMaxSize()
     ) {
         Header(text = "TASK DETAIL")
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -72,7 +71,7 @@ fun TaskDetail(
             )
             ContentButton(onClick = toTaskList,
                 text = "Tasks",
-                icon = Icons.Default.CheckCircle
+//                icon = Icons.Default.CheckCircle
             )
 //            ContentButton(onClick = toNoteDetail,
 //                text = "Notes",
@@ -108,8 +107,8 @@ fun TaskDetail(
                 .padding(8.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(4.dp),
-            shape = RoundedCornerShape(8.dp),
+                .shadow(4.dp, shape = RoundedCornerShape(35.dp)),
+            shape = RoundedCornerShape(35.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
             Text(text = "Add", color = Color.White)
@@ -197,13 +196,14 @@ fun TaskList(
                         }
                         Box(
                             modifier = Modifier
+                                .padding(vertical = 4.dp)
                                 .fillMaxSize()
                                 .background(color)
                                 .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             Text("Deleting",
-                                fontSize = 30.sp,
+                                fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFE3F2FD))
                         }
@@ -212,8 +212,8 @@ fun TaskList(
                         Spacer(modifier = Modifier.height(16.dp))
                         Column(modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 4.dp)
-                            .padding(vertical = 8.dp)
+                            .padding(horizontal = 12.dp)
+                            .padding(vertical = 4.dp)
                             .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                             .clip(shape = RoundedCornerShape(12.dp))
                             .background(Color(0xFFBBDEFB))

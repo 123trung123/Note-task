@@ -74,14 +74,14 @@ fun StyledButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .width(180.dp)
-            .height(70.dp)
+            .width(190.dp)
+            .height(80.dp)
             .padding(vertical = 10.dp)
             .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
     ) {
-        Text(text = text, color = Color.White)
+        Text(text = text, fontSize = 18.sp, color = Color.White)
     }
 }
 @Composable
@@ -98,7 +98,7 @@ fun BottomBarButton(
             .height(60.dp)
             .padding(horizontal = 10.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
     ) {
         Column( horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -106,10 +106,11 @@ fun BottomBarButton(
             icon?.let {
                 Icon(
                     imageVector = it,
+                    tint = Color.Black,
                     contentDescription = contentDescription
                 )
             }
-            Text(text = text, color = Color.White,
+            Text(text = text, color = Color.Black,
                 fontSize = 12.sp
             )
         }
@@ -126,21 +127,21 @@ fun ContentButton(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .width(140.dp)
+            .width(130.dp)
             .height(50.dp)
-            .padding(1.dp)
-            .shadow(4.dp),
+            .padding(horizontal = 4.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
     ) {
         icon?.let {
             Icon(
                 imageVector = it,
+                tint = Color.Black,
                 contentDescription = contentDescription,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier.size(128.dp)
             )
         }
-        Text(text = text, color = Color.White)
+        Text(text = text, fontSize = 18.sp, color = Color.Black)
     }
 }
 @Composable
@@ -216,7 +217,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .height(66.dp)
                     .fillMaxWidth()
-                    .background(Color.LightGray),
+                    .background(Color(0xFF90CAF9)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -262,11 +263,11 @@ fun TheMain(
         )
         Row {
             StyledButton(onClick = toNoteDetail, modifier = Modifier,
-                text = "Note"
+                text = "Make Note"
             )
             Spacer(modifier = Modifier.padding(15.dp))
             StyledButton(onClick = toTaskDetail, modifier = Modifier,
-                text = "Task"
+                text = "Make Task"
             )
         }
     }
@@ -276,9 +277,9 @@ fun Header(text: String = "") {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .background(Color(0xFF90CAF9))
+            .background(Color(0xFF90CAF9), shape = RoundedCornerShape(4.dp))
             .fillMaxWidth()
-            .padding(15.dp)
+            .padding(25.dp)
     ) {
         Text(
             text = text,
