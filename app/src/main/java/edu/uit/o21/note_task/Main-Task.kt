@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -229,27 +230,34 @@ fun TaskList(
                     },
                     dismissContent = {
                         Spacer(modifier = Modifier.height(16.dp))
+                        val backgroundColor = if (task.done) Color.LightGray else Color(0xFFBBDEFB)
+                        val titleColor = if (task.done) Color.Gray else Color(0xFF90CAF9)
+//                        val textColor = if (task.done) Color.LightGray else Color.Black
+                        val textDecoration = if (task.done) TextDecoration.LineThrough else TextDecoration.None
                         Column(modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 12.dp)
                             .padding(vertical = 4.dp)
                             .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                             .clip(shape = RoundedCornerShape(12.dp))
-                            .background(Color(0xFFBBDEFB))
+                            .background(backgroundColor)
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                                .background(color = Color(0xFF90CAF9))
+                                .background(titleColor)
                                 .fillMaxWidth()){
                                 Text(
                                     text = task.title,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 20.sp,
+                                    textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
+
                                 )
                                 Text(
                                     text = "Priority: ${task.priority}",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 20.sp,
+                                    textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
                                 )
                                 Checkbox(
@@ -262,7 +270,7 @@ fun TaskList(
                                 Text(fontWeight = FontWeight.Bold,fontSize = 20.sp,text ="")
                             }
 
-                            Text(text = task.content, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
+                            Text(text = task.content,textDecoration = textDecoration, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
                         }
                     }
                 )

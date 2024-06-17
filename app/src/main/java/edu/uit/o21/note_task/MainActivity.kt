@@ -241,7 +241,7 @@ fun HomeScreen(
         bottomBar = {
             Row(
                 modifier = Modifier
-                    .height(66.dp)
+                    .height(80.dp)
                     .fillMaxWidth()
                     .background(Color(0xFF263238)),
                 verticalAlignment = Alignment.CenterVertically,
