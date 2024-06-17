@@ -35,19 +35,6 @@ class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
     }
 }
 
-//class TaskListViewModel(private val dao: NoteTaskDao) : ViewModel() {
-//
-//    val state: StateFlow<TaskListUiState>
-//        get() {
-//            return dao.getAllTasks().map { TaskListUiState(it) }
-//                .stateIn(
-//                    scope = viewModelScope,
-//                    started = SharingStarted.WhileSubscribed(5_000L),
-//                    initialValue = TaskListUiState()
-//                )
-//        }
-//
-//}
 class TaskListViewModel(private val dao: NoteTaskDao) : ViewModel() {
 
     private val _tasks = dao.getAllTasks().map { TaskListUiState(it) }

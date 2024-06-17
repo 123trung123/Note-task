@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
@@ -173,7 +174,8 @@ fun TheMain(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AsyncImage(modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(bottomStart = 55.dp, bottomEnd = 55.dp)),
             model = "https://assets-global.website-files.com/5f7ece8a7da656e8a25402bc/631f32ee984371cb97df4ce2_How%20to%20take%20notes%20from%20a%20textbook-p-800.png",
             contentDescription = null,
         )
@@ -182,7 +184,7 @@ fun TheMain(
             StyledButton(onClick = toNoteDetail, modifier = Modifier,
                 text = "Take Note"
             )
-            Spacer(modifier = Modifier.padding(18.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
             StyledButton(onClick = toTaskDetail, modifier = Modifier,
                 text = "Add Task"
             )

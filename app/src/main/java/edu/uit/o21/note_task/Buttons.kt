@@ -59,7 +59,7 @@ fun StyledButton(
         modifier = modifier
             .width(190.dp)
             .height(90.dp)
-            .padding(vertical = 10.dp)
+            .padding(vertical = 1.dp)
             .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
