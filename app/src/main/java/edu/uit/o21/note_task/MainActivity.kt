@@ -66,6 +66,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 @Composable
+fun TopNoteTaskButton(
+    onClick: () -> Unit,
+    text: String,
+    icon: ImageVector? = null,
+    contentDescription: String? = null
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .width(205.dp)
+            .height(60.dp)
+            .padding(vertical = 4.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+    ) {
+        icon?.let {
+            Icon(
+                imageVector = it,
+                tint = Color.Black,
+                contentDescription = contentDescription,
+                modifier = Modifier.size(128.dp)
+            )
+        }
+        Text(text = text, fontSize = 21.sp, color = Color.Gray)
+    }
+}
+@Composable
 fun StyledButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

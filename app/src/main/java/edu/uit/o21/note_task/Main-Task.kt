@@ -65,7 +65,7 @@ fun TaskDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(130.dp)
+                .height(110.dp)
                 .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -77,13 +77,34 @@ fun TaskDetail(
             )
             Header(text = "TASK DETAIL")
             ContentButton(onClick = toTaskList,
-                text = "Tasks",
+                text = "",
 //                icon = Icons.Default.CheckCircle
             )
 //            ContentButton(onClick = toNoteDetail,
 //                text = "Notes",
 //                icon = Icons.Default.List
 //            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF90CAF9)),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(modifier = Modifier
+                .width(205.dp)
+                .height(60.dp)
+                .padding(vertical = 4.dp),
+                shape = RoundedCornerShape(8.dp),
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+            ) {
+                Text(text = "Task", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
+            }
+            TopNoteTaskButton(
+                onClick = toTaskList, text = "List"
+            )
         }
         Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(

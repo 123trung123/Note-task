@@ -62,7 +62,7 @@ fun NoteDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(130.dp)
+                .height(110.dp)
                 .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -74,14 +74,29 @@ fun NoteDetail(
             )
             Header(text = "NOTE DETAIL")
             ContentButton(onClick = toNoteList,
-                text = "Notes",
-//                icon = Icons.Default.List
+                text = "",
             )
-//            ContentButton(onClick = toTaskDetail ,
-//
-//                icon = Icons.Default.CheckCircle,
-//                        text = "Tasks",
-//            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF90CAF9)),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(modifier = Modifier
+                .width(205.dp)
+                .height(60.dp)
+                .padding(vertical = 4.dp),
+                shape = RoundedCornerShape(8.dp),
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+                        ) {
+                Text(text = "Note", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
+            }
+            TopNoteTaskButton(
+                onClick = toNoteList, text = "List"
+            )
         }
         Spacer(modifier = Modifier.height(50.dp))
         OutlinedTextField(
@@ -134,7 +149,8 @@ fun NoteList(
             .background(Color(0xFFE3F2FD))
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
