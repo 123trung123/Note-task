@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
@@ -65,7 +66,7 @@ fun TaskDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(110.dp)
+                .height(90.dp)
                 .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -78,12 +79,7 @@ fun TaskDetail(
             Header(text = "TASK DETAIL")
             ContentButton(onClick = toTaskList,
                 text = "",
-//                icon = Icons.Default.CheckCircle
             )
-//            ContentButton(onClick = toNoteDetail,
-//                text = "Notes",
-//                icon = Icons.Default.List
-//            )
         }
         Row(
             modifier = Modifier
@@ -141,11 +137,12 @@ fun TaskDetail(
                 .padding(8.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(4.dp, shape = RoundedCornerShape(35.dp)),
+                .shadow(14.dp, shape = RoundedCornerShape(35.dp)),
             shape = RoundedCornerShape(35.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
-            Text(text = "Add", color = Color.White)
+            Icon(Icons.Default.Add, contentDescription = "Add", tint = Color.White)
+            Text(text = "", color = Color.White)
         }
     }
 }
@@ -253,13 +250,12 @@ fun TaskList(
                         Spacer(modifier = Modifier.height(16.dp))
                         val backgroundColor = if (task.done) Color.LightGray else Color(0xFFBBDEFB)
                         val titleColor = if (task.done) Color.Gray else Color(0xFF90CAF9)
-//                        val textColor = if (task.done) Color.LightGray else Color.Black
                         val textDecoration = if (task.done) TextDecoration.LineThrough else TextDecoration.None
                         Column(modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 12.dp)
                             .padding(vertical = 4.dp)
-                            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
+                            .shadow(12.dp, shape = RoundedCornerShape(8.dp))
                             .clip(shape = RoundedCornerShape(12.dp))
                             .background(backgroundColor)
                         ) {

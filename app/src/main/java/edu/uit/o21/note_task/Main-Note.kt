@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
@@ -62,7 +63,7 @@ fun NoteDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(110.dp)
+                .height(90.dp)
                 .background(Color(0xFF90CAF9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -124,11 +125,12 @@ fun NoteDetail(
                 .padding(8.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(4.dp, shape = RoundedCornerShape(35.dp)),
+                .shadow(14.dp, shape = RoundedCornerShape(35.dp)),
             shape = RoundedCornerShape(35.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
         ) {
-            Text(text = "Add")
+            Icon(Icons.Default.Add, contentDescription = "Add", tint = Color.White)
+            Text(text = "")
         }
     }
 }
@@ -190,7 +192,6 @@ fun NoteList(
                             modifier = Modifier
                                 .padding(vertical = 4.dp)
                                 .fillMaxSize()
-//                                .shadow(8.dp)
                                 .background(color)
                                 .padding(20.dp),
                             contentAlignment = Alignment.CenterStart
@@ -213,7 +214,7 @@ fun NoteList(
                                 .fillMaxSize()
                                 .padding(horizontal = 12.dp)
                                 .padding(vertical = 4.dp)
-                                .shadow(4.dp, shape = RoundedCornerShape(8.dp))
+                                .shadow(12.dp, shape = RoundedCornerShape(8.dp))
                                 .clip(shape = RoundedCornerShape(12.dp))
                                 .background(Color(0xFFBBDEFB)),
                             horizontalArrangement = Arrangement.SpaceBetween,
