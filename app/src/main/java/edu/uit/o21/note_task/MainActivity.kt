@@ -18,9 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -147,13 +147,13 @@ fun HomeScreen(
                     onClick = { navHostController.navigate("NoteDetail") },
                     modifier = Modifier.weight(1f),
                     text = "Note",
-                    icon = Icons.Default.DateRange
+                    icon = Icons.Default.Menu
                 )
                 BottomBarButton(
                     onClick = { navHostController.navigate("TaskDetail") },
                     modifier = Modifier.weight(1f),
                     text = "Task",
-                        icon = Icons.Default.Check
+                        icon = Icons.Default.CheckCircle
                 )
             }
         }
@@ -168,7 +168,7 @@ fun TheMain(
 ) {
     Column(
         modifier = Modifier
-            .background(Color(0xFFE3F2FD))
+            .background(Color(0xFFFFFFFF))
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

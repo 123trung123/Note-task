@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,7 +40,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +60,7 @@ fun TaskDetail(
     val state by taskViewModel.state.collectAsState()
     Column(
         modifier = Modifier
-            .background(Color(0xFFE3F2FD))
+            .background(Color(0xFFF8F8F8))
             .fillMaxSize()
     ) {
         Row(
@@ -159,7 +159,7 @@ fun TaskList(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE3F2FD))
+            .background(Color(0xFFF8F8F8))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -174,7 +174,7 @@ fun TaskList(
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -248,27 +248,37 @@ fun TaskList(
                     },
                     dismissContent = {
                         Spacer(modifier = Modifier.height(16.dp))
-                        val backgroundColor = if (task.done) Color.LightGray else Color(0xFFBBDEFB)
-                        val titleColor = if (task.done) Color.Gray else Color(0xFF90CAF9)
+                        val backgroundColor = if (task.done) Color(0xFFE4E4E4) else Color(0xFFFFFFFF)
+                        val titleColor = if (task.done) Color(0xFFD2E7F8) else Color(0xFFD2E7F8)
                         val textDecoration = if (task.done) TextDecoration.LineThrough else TextDecoration.None
                         Column(modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 12.dp)
                             .padding(vertical = 4.dp)
-                            .shadow(12.dp, shape = RoundedCornerShape(8.dp))
-                            .clip(shape = RoundedCornerShape(12.dp))
+                            .shadow(6.dp, shape = RoundedCornerShape(8.dp))
+//                            .clip(shape = RoundedCornerShape(12.dp))
                             .background(backgroundColor)
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                                 .background(titleColor)
                                 .fillMaxWidth()){
+                                Checkbox(
+                                    checked = task.done,
+                                    onCheckedChange = { isChecked ->
+                                        taskListViewModel.updateTask(task.copy(done = isChecked))
+                                    },
+                                    colors = CheckboxDefaults.colors(
+                                        checkedColor = Color(0xFF679FFF), // Color when checked
+                                        uncheckedColor = Color(0xFF90CAF9) // Color when unchecked
+                                    ),
+                                    modifier = Modifier.padding(10.dp)
+                                )
                                 Text(
                                     text = task.title,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 20.sp,
                                     textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
-
                                 )
                                 Text(
                                     text = "Priority: ${task.priority}",
@@ -277,16 +287,7 @@ fun TaskList(
                                     textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
                                 )
-                                Checkbox(
-                                    checked = task.done,
-                                    onCheckedChange = { isChecked ->
-                                        taskListViewModel.updateTask(task.copy(done = isChecked))
-                                    },
-                                    modifier = Modifier.padding(10.dp)
-                                )
-                                Text(fontWeight = FontWeight.Bold,fontSize = 20.sp,text ="")
                             }
-
                             Text(text = task.content,textDecoration = textDecoration, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
                         }
                     }

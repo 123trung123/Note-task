@@ -139,7 +139,8 @@ fun TaskButton(
         modifier = Modifier
             .width(135.dp)
             .height(60.dp)
-            .padding(horizontal = 4.dp),
+            .padding(horizontal = 4.dp)
+            .shadow(6.dp, shape = RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
     ) {

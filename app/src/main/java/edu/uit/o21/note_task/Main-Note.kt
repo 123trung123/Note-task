@@ -29,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,7 +38,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -58,7 +58,7 @@ fun NoteDetail(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE3F2FD))
+            .background(Color(0xFFF8F8F8))
     ) {
         Row(
             modifier = Modifier
@@ -148,7 +148,7 @@ fun NoteList(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE3F2FD))
+            .background(Color(0xFFF8F8F8))
     ) {
         Row(
             modifier = Modifier
@@ -158,7 +158,7 @@ fun NoteList(
         ) {
             ContentButton(
                 onClick = onClickBack,
-                text = "Back",
+                text = "",
                 icon = Icons.Default.ArrowBack
             )
         }
@@ -214,26 +214,25 @@ fun NoteList(
                                 .fillMaxSize()
                                 .padding(horizontal = 12.dp)
                                 .padding(vertical = 4.dp)
-                                .shadow(12.dp, shape = RoundedCornerShape(8.dp))
-                                .clip(shape = RoundedCornerShape(12.dp))
-                                .background(Color(0xFFBBDEFB)),
+                                .shadow(6.dp, shape = RoundedCornerShape(8.dp))
+                                .background(Color(0xFFFFFFFF)),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column {
                                 if (currentlyEditingNoteId.value == note.id) {
-                                    OutlinedTextField(
+                                    TextField(
                                         value = editingTitle.value,
                                         onValueChange = { editingTitle.value = it },
                                         modifier = Modifier
-                                            .padding(10.dp)
+//                                            .padding(10.dp)
                                             .fillMaxWidth()
                                     )
-                                    OutlinedTextField(
+                                     TextField(
                                         value = editingContent.value,
                                         onValueChange = { editingContent.value = it },
                                         modifier = Modifier
-                                            .padding(10.dp)
+//                                            .padding(10.dp)
                                             .fillMaxWidth()
                                     )
                                     Button(modifier = Modifier
@@ -252,7 +251,7 @@ fun NoteList(
                                 } else {
                                     Text(
                                         text = note.title,
-                                        fontSize = 24.sp,
+                                        fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -260,7 +259,7 @@ fun NoteList(
                                     )
                                     Text(
                                         text = note.content,
-                                        fontSize = 24.sp,
+                                        fontSize = 21.sp,
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(10.dp)
