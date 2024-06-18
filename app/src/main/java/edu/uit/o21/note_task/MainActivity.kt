@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,15 +77,14 @@ fun HomeScreen(
                AsyncImage(
                    modifier = Modifier
                        .size(95.dp)
-                       .padding(16.dp)
+                       .padding(20.dp)
                        .background(Color.DarkGray),
                    contentDescription = null,
                    contentScale = ContentScale.Crop,
                    model = "https://png.pngtree.com/png-vector/20190324/ourmid/pngtree-vector-notes-icon-png-image_862518.jpg",
                )
-                TopAppBar(modifier = Modifier
-                    .background(Color(0xFF2962FF)),
-                    title = { Text(text = "QUICK NOTE & TASK", fontStyle = FontStyle.Italic, fontFamily = FontFamily.Serif, fontWeight = FontWeight.ExtraBold) }
+                TopAppBar(modifier = Modifier,
+                    title = { Text(text = "QUICK NOTE & TASK", fontFamily = FontFamily.Serif, fontWeight = FontWeight.ExtraBold) }
                 )
            } }},
         content = { innerPadding ->
@@ -105,7 +103,6 @@ fun HomeScreen(
                     NoteDetail(
                         onClickBack = { navHostController.navigateUp() },
                         toNoteList = { navHostController.navigate("NoteList") },
-//                        toTaskDetail = { navHostController.navigate("TaskDetail") }
                     )
                 }
                 composable(route = "NoteList") {
@@ -118,7 +115,6 @@ fun HomeScreen(
                     TaskDetail(
                         onClickBack = { navHostController.navigateUp() },
                         toTaskList = { navHostController.navigate("TaskList") },
-//                        toNoteDetail = { navHostController.navigate("NoteDetail") }
                     )
                 }
                 composable(route = "TaskList") {
@@ -134,7 +130,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .height(80.dp)
                     .fillMaxWidth()
-                    .background(Color(0xFF263238)),
+                    .background(Color(0xFF292E4E)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -175,7 +171,7 @@ fun TheMain(
     ) {
         AsyncImage(modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(bottomStart = 55.dp, bottomEnd = 55.dp)),
+            .clip(RoundedCornerShape(bottomStart = 35.dp, bottomEnd = 35.dp)),
             model = "https://assets-global.website-files.com/5f7ece8a7da656e8a25402bc/631f32ee984371cb97df4ce2_How%20to%20take%20notes%20from%20a%20textbook-p-800.png",
             contentDescription = null,
         )
@@ -184,7 +180,7 @@ fun TheMain(
             StyledButton(onClick = toNoteDetail, modifier = Modifier,
                 text = "Take Note"
             )
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.padding(18.dp))
             StyledButton(onClick = toTaskDetail, modifier = Modifier,
                 text = "Add Task"
             )
@@ -196,14 +192,13 @@ fun Header(text: String = "") {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .background(Color(0xFF90CAF9), shape = RoundedCornerShape(4.dp))
+            .background(Color(0xFF6074F9), shape = RoundedCornerShape(4.dp))
             .padding(vertical = 14.dp)
     ) {
         Text(
             text = text,
             fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily =  FontFamily.Serif
         )
     }
 }

@@ -67,7 +67,7 @@ fun TaskDetail(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(90.dp)
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -84,7 +84,7 @@ fun TaskDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -94,7 +94,7 @@ fun TaskDetail(
                 .padding(vertical = 4.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {},
-                colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+                colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
             ) {
                 Text(text = "Task", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
             }
@@ -134,12 +134,12 @@ fun TaskDetail(
             onClick = { taskViewModel.insertTask() },
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(8.dp)
+                .padding(14.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(14.dp, shape = RoundedCornerShape(35.dp)),
-            shape = RoundedCornerShape(35.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+                .shadow(14.dp, shape = RoundedCornerShape(20.dp)),
+            shape = RoundedCornerShape(20.dp),
+            colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
         ) {
             Icon(Icons.Default.Add, contentDescription = "Add", tint = Color.White)
             Text(text = "", color = Color.White)
@@ -155,7 +155,6 @@ fun TaskList(
     val state by taskListViewModel.state.collectAsState()
     val sortByPriority = remember { mutableStateOf(false) }
     val hideCompleted = remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -163,7 +162,7 @@ fun TaskList(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(
@@ -178,7 +177,7 @@ fun TaskList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = " Currently sorted by:", fontSize = 20.sp)
+            Text(text = "Sorted by:", fontSize = 20.sp, modifier = Modifier.padding(horizontal = 16.dp))
             TaskButton(onClick = { sortByPriority.value = !sortByPriority.value },
                 text = if (sortByPriority.value) "Priority" else "Newest"
             )
@@ -191,7 +190,7 @@ fun TaskList(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = " Show Completed:", fontSize = 20.sp)
+            Text(text = "Completed:", fontSize = 20.sp, modifier = Modifier.padding(horizontal = 16.dp))
             TaskButton(onClick = { hideCompleted.value = !hideCompleted.value },
                 text = if (hideCompleted.value) "Hide" else "Show"
             )
@@ -255,8 +254,7 @@ fun TaskList(
                             .fillMaxSize()
                             .padding(horizontal = 12.dp)
                             .padding(vertical = 4.dp)
-                            .shadow(6.dp, shape = RoundedCornerShape(8.dp))
-//                            .clip(shape = RoundedCornerShape(12.dp))
+                            .shadow(4.dp, shape = RoundedCornerShape(8.dp))
                             .background(backgroundColor)
                         ) {
                             Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier
@@ -268,27 +266,27 @@ fun TaskList(
                                         taskListViewModel.updateTask(task.copy(done = isChecked))
                                     },
                                     colors = CheckboxDefaults.colors(
-                                        checkedColor = Color(0xFF679FFF), // Color when checked
-                                        uncheckedColor = Color(0xFF90CAF9) // Color when unchecked
+                                        checkedColor = Color(0xFF679FFF),
+                                        uncheckedColor = Color(0xFF90CAF9)
                                     ),
                                     modifier = Modifier.padding(10.dp)
                                 )
                                 Text(
                                     text = task.title,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 20.sp,
+                                    fontSize = 21.sp,
                                     textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
                                 )
                                 Text(
                                     text = "Priority: ${task.priority}",
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 20.sp,
+                                    fontSize = 21.sp,
                                     textDecoration = textDecoration,
                                     modifier = Modifier.padding(10.dp)
                                 )
                             }
-                            Text(text = task.content,textDecoration = textDecoration, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
+                            Text(text = task.content,textDecoration = textDecoration, fontSize = 21.sp, modifier = Modifier.padding(10.dp))
                         }
                     }
                 )

@@ -35,7 +35,7 @@ fun TopNoteTaskButton(
             .height(60.dp)
             .padding(vertical = 4.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+        colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
     ) {
         icon?.let {
             Icon(
@@ -45,7 +45,7 @@ fun TopNoteTaskButton(
                 modifier = Modifier.size(128.dp)
             )
         }
-        Text(text = text, fontSize = 21.sp, color = Color.Gray)
+        Text(text = text, fontSize = 21.sp, color = Color(0xFF414141))
     }
 }
 @Composable
@@ -57,12 +57,12 @@ fun StyledButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .width(190.dp)
+            .width(160.dp)
             .height(90.dp)
             .padding(vertical = 1.dp)
             .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+        colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
     ) {
         Text(text = text, fontSize = 21.sp, color = Color.White)
     }
@@ -81,7 +81,7 @@ fun BottomBarButton(
             .height(60.dp)
             .padding(horizontal = 10.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF263238))
+        colors = ButtonDefaults.buttonColors(Color(0xFF292E4E))
     ) {
         Column( horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -94,7 +94,7 @@ fun BottomBarButton(
                 )
             }
             Text(text = text, color = Color.White,
-                fontSize = 12.sp
+                fontSize = 14.sp
             )
         }
 
@@ -114,7 +114,7 @@ fun ContentButton(
             .height(60.dp)
             .padding(horizontal = 4.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+        colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
     ) {
         icon?.let {
             Icon(
@@ -142,7 +142,7 @@ fun TaskButton(
             .padding(horizontal = 4.dp)
             .shadow(6.dp, shape = RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+        colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
     ) {
         icon?.let {
             Icon(
@@ -151,6 +151,6 @@ fun TaskButton(
                 contentDescription = contentDescription,
             )
         }
-        Text(text = text, fontSize = 18.sp, color = Color.Black)
+        Text(text = text, fontSize = 18.sp, color = Color.White)
     }
 }

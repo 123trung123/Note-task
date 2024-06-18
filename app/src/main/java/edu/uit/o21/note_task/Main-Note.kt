@@ -64,7 +64,7 @@ fun NoteDetail(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(90.dp)
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -81,7 +81,7 @@ fun NoteDetail(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -91,7 +91,7 @@ fun NoteDetail(
                 .padding(vertical = 4.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {},
-                colors = ButtonDefaults.buttonColors(Color(0xFF90CAF9))
+                colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
                         ) {
                 Text(text = "Note", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
             }
@@ -122,12 +122,12 @@ fun NoteDetail(
             onClick = { noteViewModel.insertNote() },
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(8.dp)
+                .padding(14.dp)
                 .width(90.dp)
                 .height(90.dp)
-                .shadow(14.dp, shape = RoundedCornerShape(35.dp)),
-            shape = RoundedCornerShape(35.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF0277BD))
+                .shadow(14.dp, shape = RoundedCornerShape(20.dp)),
+            shape = RoundedCornerShape(20.dp),
+            colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
         ) {
             Icon(Icons.Default.Add, contentDescription = "Add", tint = Color.White)
             Text(text = "")
@@ -153,7 +153,7 @@ fun NoteList(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF90CAF9)),
+                .background(Color(0xFF6074F9)),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ContentButton(
@@ -225,14 +225,12 @@ fun NoteList(
                                         value = editingTitle.value,
                                         onValueChange = { editingTitle.value = it },
                                         modifier = Modifier
-//                                            .padding(10.dp)
                                             .fillMaxWidth()
                                     )
                                      TextField(
                                         value = editingContent.value,
                                         onValueChange = { editingContent.value = it },
                                         modifier = Modifier
-//                                            .padding(10.dp)
                                             .fillMaxWidth()
                                     )
                                     Button(modifier = Modifier
@@ -241,7 +239,7 @@ fun NoteList(
                                         .height(40.dp)
                                         .padding(1.dp),
                                         shape = RoundedCornerShape(8.dp),
-                                        colors = ButtonDefaults.buttonColors(Color(0xFF42A5F5)),
+                                        colors = ButtonDefaults.buttonColors(Color(0xFF8091FC)),
                                         onClick = {
                                             noteViewModel.updateNote(note.copy(title = editingTitle.value, content = editingContent.value))
                                             currentlyEditingNoteId.value = null
@@ -271,7 +269,7 @@ fun NoteList(
                                             .height(40.dp)
                                             .padding(1.dp),
                                         shape = RoundedCornerShape(8.dp),
-                                        colors = ButtonDefaults.buttonColors(Color(0xFF42A5F5)),
+                                        colors = ButtonDefaults.buttonColors(Color(0xFF8091FC)),
                                         onClick = {
                                             currentlyEditingNoteId.value = note.id
                                             editingTitle.value = note.title
