@@ -40,12 +40,12 @@ fun TopNoteTaskButton(
         icon?.let {
             Icon(
                 imageVector = it,
-                tint = Color.Black,
+                tint = Color.White,
                 contentDescription = contentDescription,
                 modifier = Modifier.size(128.dp)
             )
         }
-        Text(text = text, fontSize = 21.sp, color = Color(0xFF414141))
+        Text(text = text, fontSize = 21.sp, color = Color(0xFFFFFFFF))
     }
 }
 @Composable
@@ -119,12 +119,12 @@ fun ContentButton(
         icon?.let {
             Icon(
                 imageVector = it,
-                tint = Color.Black,
+                tint = Color.White,
                 contentDescription = contentDescription,
                 modifier = Modifier.size(128.dp)
             )
         }
-        Text(text = text, fontSize = 18.sp, color = Color.Black)
+        Text(text = text, fontSize = 18.sp, color = Color.White)
     }
 }
 @Composable
@@ -147,7 +147,7 @@ fun TaskButton(
         icon?.let {
             Icon(
                 imageVector = it,
-                tint = Color.Black,
+                tint = Color.White,
                 contentDescription = contentDescription,
             )
         }

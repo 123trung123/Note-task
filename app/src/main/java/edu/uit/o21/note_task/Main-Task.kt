@@ -96,7 +96,7 @@ fun TaskDetail(
                 onClick = {},
                 colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
             ) {
-                Text(text = "Task", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
+                Text(text = "Task", fontSize = 22.sp, color = Color.White,textDecoration = TextDecoration.Underline)
             }
             TopNoteTaskButton(
                 onClick = toTaskList, text = "List"
@@ -171,7 +171,14 @@ fun TaskList(
                 icon = Icons.Default.ArrowBack
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "Tasks",
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.padding(horizontal = 15.dp).padding(vertical = 15.dp)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
         Row(
             modifier = Modifier.fillMaxWidth().height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,

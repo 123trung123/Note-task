@@ -56,10 +56,12 @@ class MainActivity : ComponentActivity() {
                     HomeScreen()
                 }
             }
+            NotificationUtil.createChannel(this)
+            val intervalMinutes = 48L
+            ReminderWorker.scheduleReminder(this, intervalMinutes)
         }
     }
 }
-
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -198,6 +200,7 @@ fun Header(text: String = "") {
         Text(
             text = text,
             fontSize = 23.sp,
+            color = Color.White,
             fontWeight = FontWeight.Bold,
         )
     }

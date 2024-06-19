@@ -93,7 +93,7 @@ fun NoteDetail(
                 onClick = {},
                 colors = ButtonDefaults.buttonColors(Color(0xFF6074F9))
                         ) {
-                Text(text = "Note", fontSize = 22.sp, color = Color.Black,textDecoration = TextDecoration.Underline)
+                Text(text = "Note", fontSize = 22.sp, color = Color.White,textDecoration = TextDecoration.Underline)
             }
             TopNoteTaskButton(
                 onClick = toNoteList, text = "List"
