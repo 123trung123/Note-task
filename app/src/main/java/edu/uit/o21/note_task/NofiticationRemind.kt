@@ -32,7 +32,7 @@ class ReminderWorker(context: Context, workerParams: WorkerParameters) :
 
         fun scheduleReminder(context: Context, intervalMinutes: Long) {
             val workRequest = androidx.work.PeriodicWorkRequestBuilder<ReminderWorker>(
-                intervalMinutes, TimeUnit.MINUTES
+                intervalMinutes, TimeUnit.HOURS
             ).addTag(WORK_TAG).build()
 
             androidx.work.WorkManager.getInstance(context).enqueue(workRequest)

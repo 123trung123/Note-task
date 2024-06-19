@@ -57,8 +57,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
             NotificationUtil.createChannel(this)
-            val intervalMinutes = 48L
-            ReminderWorker.scheduleReminder(this, intervalMinutes)
+            val intervalHours = 8L
+            ReminderWorker.scheduleReminder(this, intervalHours)
         }
     }
 }
