@@ -36,11 +36,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -144,6 +146,7 @@ fun NoteList(
     val currentlyEditingNoteId = remember { mutableStateOf<Int?>(null) }
     val editingTitle = remember { mutableStateOf("") }
     val editingContent = remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
         modifier = Modifier
@@ -170,8 +173,21 @@ fun NoteList(
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.padding(horizontal = 10.dp)
         )
+
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Search") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        )
+
         LazyColumn {
-            items(items = state.list_notes, key = { it.id }) { note ->
+            items(items = state.list_notes.filter {
+                it.title.contains(searchQuery.text, ignoreCase = true) ||
+                        it.content.contains(searchQuery.text, ignoreCase = true)
+            }, key = { it.id }) { note ->
                 val dismissState = rememberDismissState(
                     confirmValueChange = {
                         if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
@@ -227,7 +243,7 @@ fun NoteList(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                     )
-                                     TextField(
+                                    TextField(
                                         value = editingContent.value,
                                         onValueChange = { editingContent.value = it },
                                         modifier = Modifier
