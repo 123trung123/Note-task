@@ -99,6 +99,9 @@ fun HomeScreen(
                     TheMain(
                         toNoteDetail = { navHostController.navigate("NoteDetail") },
                         toTaskDetail = { navHostController.navigate("TaskDetail") },
+                        toTaskList = { navHostController.navigate("TaskList") },
+                        toNoteList = { navHostController.navigate("NoteList") },
+
                     )
                 }
                 composable(route = "NoteDetail") {
@@ -164,6 +167,8 @@ fun TheMain(
     modifier: Modifier = Modifier,
     toNoteDetail: () -> Unit,
     toTaskDetail: () -> Unit,
+    toNoteList: () -> Unit,
+    toTaskList: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -185,6 +190,16 @@ fun TheMain(
             Spacer(modifier = Modifier.padding(18.dp))
             StyledButton(onClick = toTaskDetail, modifier = Modifier,
                 text = "Add Task"
+            )
+        }
+        Spacer(modifier = Modifier.padding(15.dp))
+        Row {
+            StyledButton(onClick = toNoteList, modifier = Modifier,
+                text = "Note List"
+            )
+            Spacer(modifier = Modifier.padding(18.dp))
+            StyledButton(onClick = toTaskList, modifier = Modifier,
+                text = "Task List"
             )
         }
     }

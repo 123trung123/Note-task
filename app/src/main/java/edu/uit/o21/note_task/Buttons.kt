@@ -58,7 +58,7 @@ fun StyledButton(
         onClick = onClick,
         modifier = modifier
             .width(160.dp)
-            .height(90.dp)
+            .height(100.dp)
             .padding(vertical = 1.dp)
             .shadow(4.dp),
         shape = RoundedCornerShape(8.dp),
