@@ -2,6 +2,9 @@ package edu.uit.o21.note_task
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -31,11 +34,15 @@ class ReminderWorker(context: Context, workerParams: WorkerParameters) :
         const val WORK_TAG = "ReminderWorker"
 
         fun scheduleReminder(context: Context, intervalMinutes: Long) {
-            val workRequest = androidx.work.PeriodicWorkRequestBuilder<ReminderWorker>(
-                intervalMinutes, TimeUnit.HOURS
+            val workRequest = PeriodicWorkRequestBuilder<ReminderWorker>(
+                intervalMinutes, TimeUnit.MINUTES
             ).addTag(WORK_TAG).build()
 
-            androidx.work.WorkManager.getInstance(context).enqueue(workRequest)
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                WORK_TAG,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                workRequest
+            )
         }
     }
 }
