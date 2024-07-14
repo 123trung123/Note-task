@@ -8,10 +8,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
-
+//notification for the application
 class ReminderWorker(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
-
+//manual input for notification
     private val notificationMessages = listOf(
         "Do you have any tasks today?",
         "Remember to note down important things!",
@@ -23,7 +23,7 @@ class ReminderWorker(context: Context, workerParams: WorkerParameters) :
         showRandomNotification()
         return Result.success()
     }
-
+//Worker to run push notification
     private suspend fun showRandomNotification() {
         val randomIndex = Random.nextInt(notificationMessages.size)
         val message = notificationMessages[randomIndex]

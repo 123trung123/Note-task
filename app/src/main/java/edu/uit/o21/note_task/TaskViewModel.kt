@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class TaskViewModel(val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<TaskUiState> = MutableStateFlow(TaskUiState())
     val state: StateFlow<TaskUiState> = _state.asStateFlow()
-
+//view model for the tasks screen
     fun setTitle(title: String) {
         _state.update {
             it.copy(title = title)

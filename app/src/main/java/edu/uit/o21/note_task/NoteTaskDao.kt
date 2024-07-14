@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-
+//Dao for all the function within the application
 @Dao
 interface NoteTaskDao {
     @Insert

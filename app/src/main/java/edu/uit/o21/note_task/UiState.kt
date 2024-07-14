@@ -1,5 +1,5 @@
 package edu.uit.o21.note_task
-
+//Uistate holding the state for all 4 main part (note, task, notelist, tasklist)
 data class NoteUiState (
     val id: Int = 0,
     val title: String = "",

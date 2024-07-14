@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-
+//ViewModel for Note List
 class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
     private val _state: MutableStateFlow<NoteUiState> = MutableStateFlow(NoteUiState())
 
@@ -34,7 +34,7 @@ class NoteListViewModel(private val dao: NoteTaskDao) : ViewModel() {
         }
     }
 }
-
+//View Model for TaskList
 class TaskListViewModel(private val dao: NoteTaskDao) : ViewModel() {
 
     private val _tasks = dao.getAllTasks().map { TaskListUiState(it) }

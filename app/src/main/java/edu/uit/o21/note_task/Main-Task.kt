@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-
+//Task Detail shows all of the detail of the tasks where it is added into the list
 @Composable
 fun TaskDetail(
     modifier: Modifier = Modifier,
@@ -146,6 +146,7 @@ fun TaskDetail(
         }
     }
 }
+//Task List shows the whole list of all tasks
 @Composable
 fun TaskList(
     onClickBack: () -> Unit,
@@ -225,6 +226,7 @@ fun TaskList(
                     }
                 )
                 Spacer(modifier = Modifier.height(20.dp))
+                //Swipe content to delete swipe
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
@@ -252,6 +254,7 @@ fun TaskList(
                                 color = Color(0xFFE3F2FD))
                         }
                     },
+                    //delete
                     dismissContent = {
                         Spacer(modifier = Modifier.height(16.dp))
                         val backgroundColor = if (task.done) Color(0xFFE4E4E4) else Color(0xFFFFFFFF)

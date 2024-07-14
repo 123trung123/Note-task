@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+//Main home screen containing the 4 main navigation button to 4 pages
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -130,6 +131,7 @@ fun HomeScreen(
                 }
             }
         },
+        //Bottom bar for the application, navigation bottom bar
         bottomBar = {
             Row(
                 modifier = Modifier

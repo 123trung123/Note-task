@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-
+//Note detail allows the note to be added for example title or content
 @Composable
 fun NoteDetail(
     modifier: Modifier = Modifier,
@@ -57,6 +57,7 @@ fun NoteDetail(
     noteViewModel: NoteViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by noteViewModel.state.collectAsState()
+    //input
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -97,6 +98,7 @@ fun NoteDetail(
                         ) {
                 Text(text = "Note", fontSize = 22.sp, color = Color.White,textDecoration = TextDecoration.Underline)
             }
+            //navigation to list
             TopNoteTaskButton(
                 onClick = toNoteList, text = "List"
             )

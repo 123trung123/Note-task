@@ -2,7 +2,7 @@ package edu.uit.o21.note_task
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+//Entity for note allow the usage of copy(note) to create note
 @Entity
 class Note(
     @PrimaryKey(autoGenerate = true) val id: Int=0,

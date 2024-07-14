@@ -2,7 +2,7 @@ package edu.uit.o21.note_task
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+//entity class for task
 @Entity
 data class Task(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,

@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+//Top note task button is for the upper top of the task pages
 @Composable
 fun TopNoteTaskButton(
     onClick: () -> Unit,
@@ -67,6 +67,7 @@ fun StyledButton(
         Text(text = text, fontSize = 21.sp, color = Color.White)
     }
 }
+//bottom bar button is for the nav bar under
 @Composable
 fun BottomBarButton(
     onClick: () -> Unit,
