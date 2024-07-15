@@ -23,7 +23,8 @@ class ReminderWorker(context: Context, workerParams: WorkerParameters) :
         showRandomNotification()
         return Result.success()
     }
-//Worker to run push notification
+    //Worker to run push notification
+    // Selects a random message and displays it as a notification
     private suspend fun showRandomNotification() {
         val randomIndex = Random.nextInt(notificationMessages.size)
         val message = notificationMessages[randomIndex]
@@ -32,7 +33,7 @@ class ReminderWorker(context: Context, workerParams: WorkerParameters) :
 
     companion object {
         const val WORK_TAG = "ReminderWorker"
-
+        //create a reminder tasks based on user-defined intervals
         fun scheduleReminder(context: Context, intervalMinutes: Long) {
             val workRequest = PeriodicWorkRequestBuilder<ReminderWorker>(
                 intervalMinutes, TimeUnit.MINUTES

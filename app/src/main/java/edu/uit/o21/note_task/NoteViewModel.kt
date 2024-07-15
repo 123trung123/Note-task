@@ -16,9 +16,6 @@ class NoteViewModel(val dao: NoteTaskDao) : ViewModel() {
     }
 
     fun setcontent(content: String) {
-//        _state.update {
-//            it.copy(content = content)
-//        }
         _state.value = _state.value.copy(content = content)
     }
 

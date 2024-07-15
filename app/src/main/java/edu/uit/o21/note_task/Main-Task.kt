@@ -49,11 +49,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 //Task Detail shows all of the detail of the tasks where it is added into the list
+// It includes a header, input fields for task properties, and a save button.
 @Composable
 fun TaskDetail(
     modifier: Modifier = Modifier,
-    onClickBack: () -> Unit,
-    toTaskList: () -> Unit,
+    onClickBack: () -> Unit,  // Action to navigate back to the previous screen
+    toTaskList: () -> Unit,   // Action to navigate to the task list
 //    toNoteDetail: () -> Unit,
     taskViewModel: TaskViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
@@ -63,6 +64,7 @@ fun TaskDetail(
             .background(Color(0xFFF8F8F8))
             .fillMaxSize()
     ) {
+        // Row for the header section with back button and title
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,6 +73,7 @@ fun TaskDetail(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            // Button to go back to the previous screen
             ContentButton(
                 onClick = onClickBack,
                 text = "Back",
@@ -81,6 +84,7 @@ fun TaskDetail(
                 text = "",
             )
         }
+        // Row for task and list buttons
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,6 +107,7 @@ fun TaskDetail(
             )
         }
         Spacer(modifier = Modifier.height(50.dp))
+        // Input field for the task title
         OutlinedTextField(
             value = state.title,
             onValueChange = { taskViewModel.setTitle(it) },
@@ -130,6 +135,7 @@ fun TaskDetail(
                 .padding(horizontal = 16.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
+        // Button to save the task
         Button(
             onClick = { taskViewModel.insertTask() },
             modifier = Modifier
@@ -149,18 +155,20 @@ fun TaskDetail(
 //Task List shows the whole list of all tasks
 @Composable
 fun TaskList(
-    onClickBack: () -> Unit,
-    toTheMain: () -> Unit,
+    onClickBack: () -> Unit,  // Action to navigate back to the previous screen
+    toTheMain: () -> Unit,    // Action to navigate to the main screen
     taskListViewModel: TaskListViewModel = viewModel(factory = AppViewModelNt.Factory)
 ) {
     val state by taskListViewModel.state.collectAsState()
-    val sortByPriority = remember { mutableStateOf(false) }
-    val hideCompleted = remember { mutableStateOf(false) }
+    val sortByPriority = remember { mutableStateOf(false) }  // State to toggle sorting by priority
+    val hideCompleted = remember { mutableStateOf(false) }   // State to toggle hiding completed tasks
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF8F8F8))
     ) {
+        // Row for the header section with back button and title
         Row(
             modifier = Modifier.fillMaxWidth()
                 .background(Color(0xFF6074F9)),
@@ -180,6 +188,7 @@ fun TaskList(
             modifier = Modifier.padding(horizontal = 15.dp).padding(vertical = 15.dp)
         )
         Spacer(modifier = Modifier.height(5.dp))
+        // Row for sorting tasks by priority or newest, changes the priority
         Row(
             modifier = Modifier.fillMaxWidth().height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -191,6 +200,7 @@ fun TaskList(
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
+        // Row for hiding and showing and hiding checked tasks, filtering out the finished tasks
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -203,6 +213,7 @@ fun TaskList(
                 text = if (hideCompleted.value) "Hide" else "Show"
             )
         }
+        // LazyColumn to display the list of tasks
         LazyColumn (
             state = rememberLazyListState()
         ) {
@@ -215,7 +226,7 @@ fun TaskList(
                         tasks.sortedByDescending { it.id }
                     }
                 }
-
+            // State for swipe-to-dismiss functionality
             items(items = filteredTasks, key = { it.id }) { task ->
                 val dismissState = rememberDismissState(
                     confirmValueChange = {
@@ -227,6 +238,7 @@ fun TaskList(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 //Swipe content to delete swipe
+                //sometime the code bugs out showing API is used for the future just reload the code.
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
@@ -254,9 +266,10 @@ fun TaskList(
                                 color = Color(0xFFE3F2FD))
                         }
                     },
-                    //delete
+                    //Code to delete unused task or task that has been done and user no longer needs
                     dismissContent = {
                         Spacer(modifier = Modifier.height(16.dp))
+                        //changes color based on normal  or deleting
                         val backgroundColor = if (task.done) Color(0xFFE4E4E4) else Color(0xFFFFFFFF)
                         val titleColor = if (task.done) Color(0xFFD2E7F8) else Color(0xFFD2E7F8)
                         val textDecoration = if (task.done) TextDecoration.LineThrough else TextDecoration.None
@@ -273,6 +286,7 @@ fun TaskList(
                                 Checkbox(
                                     checked = task.done,
                                     onCheckedChange = { isChecked ->
+                                        //Update task status when checkbox is checked/unchecked
                                         taskListViewModel.updateTask(task.copy(done = isChecked))
                                     },
                                     colors = CheckboxDefaults.colors(
@@ -296,6 +310,7 @@ fun TaskList(
                                     modifier = Modifier.padding(10.dp)
                                 )
                             }
+                            // Text for task content
                             Text(text = task.content,textDecoration = textDecoration, fontSize = 21.sp, modifier = Modifier.padding(10.dp))
                         }
                     }

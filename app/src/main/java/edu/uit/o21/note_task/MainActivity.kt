@@ -96,13 +96,14 @@ fun HomeScreen(
                 startDestination = "TheMain",
                 modifier = Modifier.padding(innerPadding)
             ) {
+                //Navigation for the application leading to 4 screen Note, Task , Notelist, Tasklist
                 composable(route = "TheMain") {
                     TheMain(
+                        //Each screen ues nav host controller to navigate to the right destination
                         toNoteDetail = { navHostController.navigate("NoteDetail") },
                         toTaskDetail = { navHostController.navigate("TaskDetail") },
                         toTaskList = { navHostController.navigate("TaskList") },
                         toNoteList = { navHostController.navigate("NoteList") },
-
                     )
                 }
                 composable(route = "NoteDetail") {
@@ -131,7 +132,7 @@ fun HomeScreen(
                 }
             }
         },
-        //Bottom bar for the application, navigation bottom bar
+        //This part is the Homescreen code which contain the navhost that allows the application to nav to other pages.
         bottomBar = {
             Row(
                 modifier = Modifier
@@ -141,19 +142,24 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
+                //bottom bar buttons leading to 3 main pages, Note, Task, Home
+
                 BottomBarButton(
+                    //Move to home
                     onClick = { navHostController.navigate("TheMain") },
                     modifier = Modifier.weight(1f),
                     text = "Home",
                     icon = Icons.Default.Home
                 )
                 BottomBarButton(
+                    //move to Note screen
                     onClick = { navHostController.navigate("NoteDetail") },
                     modifier = Modifier.weight(1f),
                     text = "Note",
                     icon = Icons.Default.Menu
                 )
                 BottomBarButton(
+                    //move to task screen
                     onClick = { navHostController.navigate("TaskDetail") },
                     modifier = Modifier.weight(1f),
                     text = "Task",
@@ -178,6 +184,7 @@ fun TheMain(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        //Main screen with Async image to take picture from online sources
         AsyncImage(modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(bottomStart = 35.dp, bottomEnd = 35.dp)),
@@ -185,6 +192,7 @@ fun TheMain(
             contentDescription = null,
         )
         Spacer(modifier = Modifier.padding(25.dp))
+        //Each row shows the buttons that leads to the 4 pages within the system.
         Row {
             StyledButton(onClick = toNoteDetail, modifier = Modifier,
                 text = "Take Note"

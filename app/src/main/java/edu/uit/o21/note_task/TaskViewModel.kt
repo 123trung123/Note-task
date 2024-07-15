@@ -17,26 +17,21 @@ class TaskViewModel(val dao: NoteTaskDao) : ViewModel() {
             it.copy(title = title)
         }
     }
-
     fun setcontent(content: String) {
         _state.update {
             it.copy(content= content)
         }
     }
-
     fun setPriority(priority: Int) {
         _state.update {
             it.copy(priority = priority)
         }
     }
-
-
     fun setDone(done: Boolean) {
         _state.update {
             it.copy(done = done)
         }
     }
-
     fun insertTask() {
         viewModelScope.launch {
             val task = Task(
@@ -49,7 +44,6 @@ class TaskViewModel(val dao: NoteTaskDao) : ViewModel() {
         }
         _state.value = TaskUiState()
     }
-
     fun deleteTask() {
         viewModelScope.launch {
             val task = Task(
